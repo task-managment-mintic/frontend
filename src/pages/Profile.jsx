@@ -1,7 +1,11 @@
+import HobbyList from "../components/Hobby/HobbyList"
+import ProfileCard from "../components/User/ProfileCard"
+
 const Profile = () => {
     return (
         <div>
-            Información del perfil
+            <ProfileCard />
+            <HobbyList />
         </div>
     )
 }

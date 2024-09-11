@@ -1,7 +1,11 @@
 const HobbyList = () => {
     return (
         <div>
-            Lista de Hobbies
+            <h2>Hobbies y Gustos</h2>
+            <div>
+                <p>Un item por cada hobby</p>
+            </div>
+            <button>Agregar Hobby Nuevo o Botón con ícono</button>
         </div>
     )
 }
