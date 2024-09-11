@@ -1,6 +1,6 @@
-import { useState } from "react"
-import UpdateForm from "./UpdateForm"
-import AvatarTable from "./AvatarTable"
+import { useState } from 'react'
+import UpdateForm from './UpdateForm'
+import AvatarTable from './AvatarTable'
 
 const ProfileCard = () => {
     const [formType, setFormType] = useState(null)

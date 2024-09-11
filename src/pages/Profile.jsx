@@ -1,5 +1,5 @@
-import HobbyList from "../components/Hobby/HobbyList"
-import ProfileCard from "../components/User/ProfileCard"
+import HobbyList from '../components/Hobby/HobbyList'
+import ProfileCard from '../components/User/ProfileCard'
 
 const Profile = () => {
     return (

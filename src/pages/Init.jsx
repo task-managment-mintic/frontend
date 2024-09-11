@@ -1,6 +1,6 @@
-import { useState } from "react"
-import LoginForm from "../components/User/LoginForm"
-import RegisterForm from "../components/User/RegisterForm"
+import { useState } from 'react'
+import LoginForm from '../components/User/LoginForm'
+import RegisterForm from '../components/User/RegisterForm'
 
 const Init = () => {
     const [isLogin, setIsLogin] = useState(false)
