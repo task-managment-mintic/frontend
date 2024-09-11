@@ -1,4 +1,19 @@
+import { useState } from "react"
+import UpdateForm from "./UpdateForm"
+
 const ProfileCard = () => {
+    const [formType, setFormType] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const handleFormChange = type => {
+        setFormType(type)
+        setIsModalOpen(true)
+    }
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+    }
+
     return (
         <div>
             <h1>INFORMACIÓN PERSONAL</h1>
@@ -17,8 +32,10 @@ const ProfileCard = () => {
                     Barra de experiencia
                     <p>0/xp_required</p>
                 </div>
-                <button>Actualizar información</button>
-                <button>Actualizar contraseña</button>
+                <button onClick={() => handleFormChange('profile')}>Actualizar información</button>
+                <button onClick={() => handleFormChange('password')}>Actualizar contraseña</button>
+
+                {isModalOpen && <UpdateForm formType={formType} closeModal={closeModal} />}
             </div>
         </div>
     )
