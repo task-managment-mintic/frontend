@@ -11,7 +11,6 @@ const RegisterForm = ({ openLogin }) => {
         register,
         handleSubmit
     } = useForm()
-    let errors = userErrors
 
     const onSubmit = handleSubmit(async user => {
         setIsMatch(true)
@@ -35,7 +34,7 @@ const RegisterForm = ({ openLogin }) => {
     return (
         <div className='flex justify-center items-center relative'>
             <div className='fixed top-4 right-4 flex flex-col space-y-2 z-50'>
-                {errors.map((error, index) => (
+                {userErrors.map((error, index) => (
                     <div key={index}
                         className='bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 animate-fade-out'
                         style={{ animationDelay: `${index * 0.25}s` }}

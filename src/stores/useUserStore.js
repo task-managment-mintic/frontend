@@ -1,11 +1,12 @@
 import { create } from 'zustand'
-import { createAccountRequest } from '../services/user-service'
+import { createAccountRequest, loginAccountRequest } from '../services/user-service'
 
 const useUserStore = create(set => ({
     user: null,
     isAuthenticated: false,
     isLoading: false,
     userErrors: [],
+    loginError: '',
 
     signUp: async user => {
         set({ isLoading: true, userErrors: [] })
@@ -17,6 +18,19 @@ const useUserStore = create(set => ({
         } catch (error) {
             const backErrors = error.response.data.errors.map(err => err.message)
             set({ isLoading: false, userErrors: backErrors })
+        }
+    },
+
+    signIn: async user => {
+        set({ isLoading: true, loginError: '' })
+        try {
+            const response = await loginAccountRequest(user)
+            set({ isAuthenticated: true })
+            console.log(response)
+            return true
+        } catch (error) {
+            console.log(error.response.data.message)
+            set({ isLoading: false, loginError: error.response.data.message })
         }
     }
 }))
