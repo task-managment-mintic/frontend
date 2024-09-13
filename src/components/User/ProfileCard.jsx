@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import UpdateForm from './UpdateForm'
 import AvatarTable from './AvatarTable'
-import useUserStore from '../../stores/useUserStore'
+import useAuthStore from '../../stores/useAuthStore'
 
 const ProfileCard = () => {
     const [formType, setFormType] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showEditButton, setShowEditButton] = useState(false)
     const [isAvatarTableOpen, setIsAvatarTableOpen] = useState(false)
-    const { user, fetchUserInfo } = useUserStore()
+    const { user, checkToken } = useAuthStore()
 
     const userData = user.dataValues
 
@@ -29,7 +29,7 @@ const ProfileCard = () => {
     }
 
     useEffect(() => {
-        fetchUserInfo()
+        checkToken()
     }, [])
 
     return (

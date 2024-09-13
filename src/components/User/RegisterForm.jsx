@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import useUserStore from '../../stores/useUserStore'
+import useAuthStore from '../../stores/useAuthStore'
 import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
 import { useState } from 'react'
 
 const RegisterForm = ({ openLogin }) => {
     const [isMatch, setIsMatch] = useState(true)
-    const { userErrors, signUp } = useUserStore()
+    const { userErrors, signUp } = useAuthStore()
     const {
         register,
         handleSubmit

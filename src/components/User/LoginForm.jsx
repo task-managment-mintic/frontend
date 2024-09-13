@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types'
-import useUserStore from '../../stores/useUserStore'
+import useAuthStore from '../../stores/useAuthStore'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 const LoginForm = ({ openRegister }) => {
-    const { loginError, signIn } = useUserStore()
+    const { loginError, signIn } = useAuthStore()
     const { register, handleSubmit } = useForm()
     const navigate = useNavigate()
 

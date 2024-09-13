@@ -1,10 +1,14 @@
 import { create } from 'zustand'
-import { createAccountRequest, getProfileRequest, loginAccountRequest } from '../services/user-service'
+import {
+    createAccountRequest,
+    getProfileRequest,
+    loginAccountRequest
+} from '../services/user-service'
 
-const useUserStore = create(set => ({
-    user: null,
+const useAuthStore = create(set => ({
+    user: JSON.parse(localStorage.getItem('user')) || null,
     level: {},
-    isAuthenticated: false,
+    isAuthenticated: !!localStorage.getItem('auth_token') || null,
     isLoading: false,
     userErrors: [],
     loginError: '',
@@ -26,6 +30,7 @@ const useUserStore = create(set => ({
         set({ isLoading: true, loginError: '' })
         try {
             const response = await loginAccountRequest(user)
+            localStorage.setItem('auth_token', response.data.token)
             set({ isAuthenticated: true })
             console.log(response)
             return true
@@ -35,14 +40,30 @@ const useUserStore = create(set => ({
         }
     },
 
-    fetchUserInfo: async () => {
-        try {
-            const response = await getProfileRequest()
-            set({ user: response.data.user })
-        } catch (error) {
-            console.log(error)
+    checkToken: async () => {
+        const token = localStorage.getItem('auth_token')
+
+        if (token) {
+            set({ isLoading: true })
+            
+            try {
+                const response = await getProfileRequest()
+                if (response.status === 200) {
+                    console.log(response)
+                    set({ user: response.data.user, isAuthenticated: true })
+                    localStorage.setItem('user', JSON.stringify(response.data.user))
+                    return
+                }
+            } catch (error) {
+                set({ isAuthenticated: false })
+                console.log(error)
+            } finally {
+                set({ isLoading: false })
+            }
+        } else {
+            set({ isAuthenticated: false })
         }
     }
 }))
 
-export default useUserStore
+export default useAuthStore
