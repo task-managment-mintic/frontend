@@ -1,8 +1,9 @@
 import { create } from 'zustand'
-import { createAccountRequest, loginAccountRequest } from '../services/user-service'
+import { createAccountRequest, getProfileRequest, loginAccountRequest } from '../services/user-service'
 
 const useUserStore = create(set => ({
     user: null,
+    level: {},
     isAuthenticated: false,
     isLoading: false,
     userErrors: [],
@@ -31,6 +32,15 @@ const useUserStore = create(set => ({
         } catch (error) {
             console.log(error.response.data.message)
             set({ isLoading: false, loginError: error.response.data.message })
+        }
+    },
+
+    fetchUserInfo: async () => {
+        try {
+            const response = await getProfileRequest()
+            set({ user: response.data.user })
+        } catch (error) {
+            console.log(error)
         }
     }
 }))

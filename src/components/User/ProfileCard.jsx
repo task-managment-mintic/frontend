@@ -1,12 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import UpdateForm from './UpdateForm'
 import AvatarTable from './AvatarTable'
+import useUserStore from '../../stores/useUserStore'
 
 const ProfileCard = () => {
     const [formType, setFormType] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showEditButton, setShowEditButton] = useState(false)
     const [isAvatarTableOpen, setIsAvatarTableOpen] = useState(false)
+    const { user, fetchUserInfo } = useUserStore()
+
+    const userData = user.dataValues
 
     const handleFormChange = type => {
         setFormType(type)
@@ -24,13 +28,17 @@ const ProfileCard = () => {
         setIsAvatarTableOpen(false)
     }
 
+    useEffect(() => {
+        fetchUserInfo()
+    }, [])
+
     return (
         <div>
             <h1>INFORMACIÓN PERSONAL</h1>
             <div onMouseEnter={() => setShowEditButton(true)}
                 onMouseLeave={() => setShowEditButton(false)}
             >
-                <img alt='profile-img' src='https://res.cloudinary.com/dgm8dtsce/image/upload/v1725937229/avatars/default-img-avatar-tskmng-18.jpg' />
+                <img alt='profile-img' src={`https://res.cloudinary.com/dgm8dtsce/image/upload/${userData.profile_img}`} />
                 {showEditButton && (
                     <button onClick={handleOpenAvatarTable}
                         style={{
@@ -52,15 +60,15 @@ const ProfileCard = () => {
 
             <div>
                 <h3>Nombre</h3>
-                <p>Nombre + Apellido Usuario</p>
+                <p>{userData.first_name} {userData.last_name}</p>
                 <h3>Nombre de Usuario</h3>
-                <p>Nombre de usuario</p>
+                <p>{userData.nickname}</p>
                 <h3>Correo electrónico</h3>
-                <p>Correo del usuario</p>
+                <p>{userData.email}</p>
                 <div>
-                    <p>Lvl. X</p>
+                    <p>Lvl. {user.level_num}</p>
                     Barra de experiencia
-                    <p>0/xp_required</p>
+                    <p>{userData.xp}/{user.xp_required}XP</p>
                 </div>
                 <button onClick={() => handleFormChange('profile')}>Actualizar información</button>
                 <button onClick={() => handleFormChange('password')}>Actualizar contraseña</button>
