@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import useAuthStore from '../../stores/useAuthStore'
 import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../../context/AuthContext'
 
 const RegisterForm = ({ openLogin }) => {
     const [isMatch, setIsMatch] = useState(true)
-    const { userErrors, signUp } = useAuthStore()
+    const { userErrors, signUp } = useContext(AuthContext)
     const {
         register,
         handleSubmit
@@ -14,6 +14,10 @@ const RegisterForm = ({ openLogin }) => {
 
     const onSubmit = handleSubmit(async user => {
         setIsMatch(true)
+        if (user.password !== user.confirmPassword) {
+            setIsMatch(false)
+        }
+
         const signUpResponse = await signUp(user)
         if (signUpResponse) {
             Swal.fire({
@@ -24,10 +28,6 @@ const RegisterForm = ({ openLogin }) => {
             }).then(() => {
                 openLogin()
             }) 
-        } else {
-            if (user.password !== user.confirmPassword) {
-                setIsMatch(false)
-            }
         }
     })
 
