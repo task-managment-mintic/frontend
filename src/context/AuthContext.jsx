@@ -3,7 +3,8 @@ import { createContext, useEffect, useState } from 'react'
 import {
     createAccountRequest,
     getProfileRequest,
-    loginAccountRequest
+    loginAccountRequest,
+    updateIsNewRequest
 } from '../services/user-service'
 
 export const AuthContext = createContext()
@@ -70,6 +71,16 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const updateIsNew = async () => {
+        try {
+            const response = await updateIsNewRequest()
+            console.log(response)
+            return true
+        } catch (error) {
+            console.log(`Método actualizar nuevo usuario: ${error}`)
+        }
+    }
+
     useEffect(() => {
         checkToken()
     }, [])
@@ -78,6 +89,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             signUp,
             signIn,
+            updateIsNew,
             user,
             level,
             xpRequired,
