@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { createContext, useContext, useState } from 'react'
 import { AuthContext } from './AuthContext'
-import { createHobbyRequest, getHobbiesRequest } from '../services/hobby-service'
+import { createHobbyRequest, getHobbiesRequest, getHobbyRequest } from '../services/hobby-service'
 
 export const HobbyContext = createContext()
 
@@ -37,10 +37,21 @@ export const HobbyProvider = ({ children }) => {
         }
     }
 
+    const fetchHobby = async () => {
+        setHobbyErrors([])
+        try {
+            const response = await getHobbyRequest()
+            setHobby(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <HobbyContext.Provider value={{
             createHobby,
             fetchHobbiesList,
+            fetchHobby,
             hobby,
             hobbiesList,
             hobbyErrors

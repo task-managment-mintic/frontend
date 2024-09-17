@@ -4,6 +4,7 @@ import {
     createAccountRequest,
     getProfileRequest,
     loginAccountRequest,
+    updateAccountRequest,
     updateIsNewRequest
 } from '../services/user-service'
 
@@ -71,6 +72,17 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const updateAccount = async user => {
+        setUserErrors([])
+        try {
+            const response = await updateAccountRequest(user)
+            setUser(response.data.user)
+            return true
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updateIsNew = async () => {
         try {
             const response = await updateIsNewRequest()
@@ -89,6 +101,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             signUp,
             signIn,
+            updateAccount,
             updateIsNew,
             user,
             level,
