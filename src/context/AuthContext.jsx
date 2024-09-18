@@ -5,7 +5,8 @@ import {
     getProfileRequest,
     loginAccountRequest,
     updateAccountRequest,
-    updateIsNewRequest
+    updateIsNewRequest,
+    updatePasswordRequest
 } from '../services/user-service'
 
 export const AuthContext = createContext()
@@ -83,6 +84,21 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const updatePassword = async user => {
+        setUserErrors([])
+        try {
+            const response = await updatePasswordRequest(user)
+            console.log(response)
+            return true
+        } catch (error) {
+            if (error.status === 404) {
+                setUserErrors([error.response.data.message])
+            } else {
+                setUserErrors(error.response.data.errors)
+            }
+        }
+    }
+
     const updateIsNew = async () => {
         try {
             const response = await updateIsNewRequest()
@@ -102,6 +118,7 @@ export const AuthProvider = ({ children }) => {
             signUp,
             signIn,
             updateAccount,
+            updatePassword,
             updateIsNew,
             user,
             level,

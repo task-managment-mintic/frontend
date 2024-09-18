@@ -3,10 +3,12 @@ import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const UpdateForm = ({ formType, closeModal }) => {
-    const { user, updateAccount } = useContext(AuthContext)
+    const { user, userErrors, updateAccount, updatePassword } = useContext(AuthContext)
     const { register, handleSubmit, setValue } = useForm()
+    const navigate = useNavigate()
 
     const onSubmitInfo = handleSubmit(user => {
         const userUpdated = updateAccount(user)
@@ -24,6 +26,23 @@ const UpdateForm = ({ formType, closeModal }) => {
         }
     })
 
+    const onSubmitPwd = handleSubmit(async user => {
+        const pwdUpdated = await updatePassword(user)
+        if (pwdUpdated) {
+            Swal.fire({
+                title: 'Contraseña actualizada!',
+                text: 'Se cerrará sesión y deberás iniciar de nuevo con tu nueva contraseña',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            }).then(() => {
+                localStorage.removeItem('auth_token')
+                navigate('/')
+            })
+        } else {
+            console.log('error')
+        }
+    })
+
     useEffect(() => {
         if (user && formType === 'profile') {
             setValue('first_name', user.first_name)
@@ -35,6 +54,18 @@ const UpdateForm = ({ formType, closeModal }) => {
 
     return (
         <div>
+            <div className='fixed top-4 right-4 flex flex-col space-y-2 z-50'>
+                {userErrors.map((error, index) => (
+                    <div key={index}
+                        className='bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 animate-fade-out'
+                        style={{ animationDelay: `${index * 0.25}s` }}
+                    >
+                        <div className="flex justify-between items-center">
+                            <span>{error}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
             <button onClick={closeModal}>Cerrar</button>
             {formType === 'profile' && (
                 <form onSubmit={onSubmitInfo}>
@@ -55,13 +86,17 @@ const UpdateForm = ({ formType, closeModal }) => {
             )}
 
             {formType === 'password' && (
-                <form>
-                    <label htmlFor=''>Contraseña anterior</label>
-                    <input type='password' />
-                    <label htmlFor=''>Nueva contraseña</label>
-                    <input type='password' />
+                <form onSubmit={onSubmitPwd}>
+                    <label htmlFor='current_password'>Contraseña anterior</label>
+                    <input type='password' id='current_password' {...register('current_password')} />
+
+                    <label htmlFor='password'>Nueva contraseña</label>
+                    <input type='password' id='password' {...register('password')} />
+
                     <label htmlFor=''>Confirmar nueva contraseña</label>
-                    <input type='password' />
+                    <input type='password' id='confirm_password' {...register('confirm_password')} />
+
+                    <button>Actualizar</button>
                 </form>
             )}
 
