@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import LoginForm from '../components/User/LoginForm'
 import RegisterForm from '../components/User/RegisterForm'
+import { AuthContext } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const Init = () => {
     const [isLogin, setIsLogin] = useState(false)
     const [isRegister, setIsRegister] = useState(false)
+    const { isAuthenticated } = useContext(AuthContext)
+    const navigate = useNavigate()
 
     const handleShowLogin = () => {
         setIsLogin(true)
@@ -18,6 +22,12 @@ const Init = () => {
         setIsLogin(false)
         setIsRegister(false)
     }
+
+    useEffect(() => {
+        if (isAuthenticated) navigate('/home')
+    }, [isAuthenticated])
+
+
     return (
         <div>
             {!isLogin && !isRegister && (

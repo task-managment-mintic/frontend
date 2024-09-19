@@ -1,6 +1,16 @@
-import { Link } from "react-router-dom"
+import { useContext } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { AuthContext } from "../context/AuthContext"
 
 const NavBar = () => {
+    const { signOut } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+    const handleSignOut = () => {
+        signOut()
+        navigate('/')
+    }
+
     return (
         <div>
             <ul>
@@ -11,6 +21,7 @@ const NavBar = () => {
                     <Link to='/profile'>Mi Perfil</Link>
                 </li>
             </ul>
+            <button onClick={handleSignOut}>Cerrar sesión</button>
         </div>
     )
 }
