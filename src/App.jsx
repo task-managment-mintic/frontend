@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import Init from './pages/Init'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
@@ -13,7 +13,7 @@ const App = () => {
             <HobbyProvider>
                 <div>
                     <BrowserRouter>
-                        <NavBar />
+                        <ConditionalNavBar />
                         <Routes>
                             <Route path='/' element={<Init />} />
                             <Route element={<ProtectedRoute />}> 
@@ -26,6 +26,15 @@ const App = () => {
             </HobbyProvider>
         </AuthProvider>
     )
+}
+
+const ConditionalNavBar = () => {
+    const location = useLocation()
+    const shouldRenderNavBar = location.pathname !== '/'
+
+    if (!shouldRenderNavBar) return null
+
+    return <NavBar />
 }
 
 export default App
