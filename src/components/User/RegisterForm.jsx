@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 
 const RegisterForm = ({ openLogin }) => {
-    const [isMatch, setIsMatch] = useState(true)
     const { userErrors, signUp } = useContext(AuthContext)
     const {
         register,
@@ -13,11 +12,7 @@ const RegisterForm = ({ openLogin }) => {
     } = useForm()
 
     const onSubmit = handleSubmit(async user => {
-        setIsMatch(true)
-        if (user.password !== user.confirmPassword) {
-            setIsMatch(false)
-        }
-
+        console.log(user.confirm_password)
         const signUpResponse = await signUp(user)
         if (signUpResponse) {
             Swal.fire({
@@ -44,14 +39,6 @@ const RegisterForm = ({ openLogin }) => {
                         </div>
                     </div>
                 ))}
-                {!isMatch &&
-                    <div className='bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 animate-fade-out'
-                        style={{ animationDelay: '0.25s' }}>
-                        <div className="flex justify-between items-center">
-                            <span>Las contraseñas no coinciden</span>
-                        </div>
-                    </div>
-                }
             </div>
             <h1>CREACIÓN DE CUENTA</h1>
             <form onSubmit={onSubmit}>
@@ -70,8 +57,8 @@ const RegisterForm = ({ openLogin }) => {
                 <label htmlFor='password'>Contraseña</label>
                 <input type='password' id='password' {...register('password')} />
 
-                <label htmlFor='confirmPassword'>Confirmar Contraseña</label>
-                <input type='password' id='confirmPassword' {...register('confirmPassword')} />
+                <label htmlFor='confirm_password'>Confirmar Contraseña</label>
+                <input type='password' id='confirm_password' {...register('confirm_password')} />
 
                 <button>Crear cuenta</button>
                 <button onClick={openLogin}>Ya tengo una cuenta!</button>
