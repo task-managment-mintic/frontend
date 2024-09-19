@@ -20,9 +20,8 @@ export const HobbyProvider = ({ children }) => {
             console.log(response)
             return true
         } catch (error) {
-            // console.log(error.response.data.errors.map(err => err))
-            console.log(error)
-            setHobbyErrors([error.message || 'Error al crear el hobby'])
+            console.log(error.response.data.errors.map(err => err.message))
+            setHobbyErrors(error.response.data.errors.map(err => err.message))
         }
     }
 

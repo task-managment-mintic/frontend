@@ -11,8 +11,9 @@ const HobbyList = () => {
     }
 
     const handleSaveHobby = async () => {
-        if (newHobby.name && newHobby.hobby_type) {
-            await createHobby(newHobby)
+        console.log('Se hace click: ', newHobby)
+        const hobbyCreated = await createHobby(newHobby)
+        if (hobbyCreated) {
             fetchHobbiesList()
             setIsAdding(false)
             setNewHobby({ name: '', hobby_type: '' })
