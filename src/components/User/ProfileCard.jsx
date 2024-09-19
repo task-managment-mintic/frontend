@@ -1,12 +1,14 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import UpdateForm from './UpdateForm'
 import AvatarTable from './AvatarTable'
+import { AuthContext } from '../../context/AuthContext'
 
 const ProfileCard = () => {
     const [formType, setFormType] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showEditButton, setShowEditButton] = useState(false)
     const [isAvatarTableOpen, setIsAvatarTableOpen] = useState(false)
+    const { user, level, xpRequired, updateProfileImg } = useContext(AuthContext)
 
     const handleFormChange = type => {
         setFormType(type)
@@ -24,19 +26,24 @@ const ProfileCard = () => {
         setIsAvatarTableOpen(false)
     }
 
+    const handleUpdateAvatar = async url => {
+        await updateProfileImg(url)
+        setIsAvatarTableOpen(false)
+    }
+
     return (
         <div>
             <h1>INFORMACIÓN PERSONAL</h1>
             <div onMouseEnter={() => setShowEditButton(true)}
                 onMouseLeave={() => setShowEditButton(false)}
             >
-                <img alt='profile-img' src='https://res.cloudinary.com/dgm8dtsce/image/upload/v1725937229/avatars/default-img-avatar-tskmng-18.jpg' />
+                <img alt='profile-img' src={`https://res.cloudinary.com/dgm8dtsce/image/upload/${user.profile_img}`} />
                 {showEditButton && (
                     <button onClick={handleOpenAvatarTable}
                         style={{
                             position: 'absolute',
-                            top: '10px',
-                            right: '10px',
+                            top: '60px',
+                            right: '60px',
                             backgroundColor: 'white',
                             borderRadius: '50%',
                             border: 'none',
@@ -48,19 +55,19 @@ const ProfileCard = () => {
                 )}
             </div>
 
-            {isAvatarTableOpen && <AvatarTable onClose={closeAvatarTable} />}
+            {isAvatarTableOpen && <AvatarTable onClose={closeAvatarTable} updateAvatar={handleUpdateAvatar} />}
 
             <div>
                 <h3>Nombre</h3>
-                <p>Nombre + Apellido Usuario</p>
+                <p>{user.first_name} {user.last_name}</p>
                 <h3>Nombre de Usuario</h3>
-                <p>Nombre de usuario</p>
+                <p>{user.nickname}</p>
                 <h3>Correo electrónico</h3>
-                <p>Correo del usuario</p>
+                <p>{user.email}</p>
                 <div>
-                    <p>Lvl. X</p>
+                    <p>Lvl. {level}</p>
                     Barra de experiencia
-                    <p>0/xp_required</p>
+                    <p>{user.xp}/{xpRequired}XP</p>
                 </div>
                 <button onClick={() => handleFormChange('profile')}>Actualizar información</button>
                 <button onClick={() => handleFormChange('password')}>Actualizar contraseña</button>
