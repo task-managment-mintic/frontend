@@ -10,8 +10,8 @@ const UpdateForm = ({ formType, closeModal }) => {
     const { register, handleSubmit, setValue } = useForm()
     const navigate = useNavigate()
 
-    const onSubmitInfo = handleSubmit(user => {
-        const userUpdated = updateAccount(user)
+    const onSubmitInfo = handleSubmit(async user => {
+        const userUpdated = await updateAccount(user)
         if (userUpdated) { 
             Swal.fire({
                 title: 'ÉXITO',

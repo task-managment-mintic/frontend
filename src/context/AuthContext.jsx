@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
             setUser(response.data.user)
             return true
         } catch (error) {
-            console.log(error)
+            setUserErrors(error.response.data.errors.map(err => err.message))
         }
     }
 
