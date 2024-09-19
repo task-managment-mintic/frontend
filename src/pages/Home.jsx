@@ -1,13 +1,20 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import InitialForm from '../components/Hobby/InitialForm'
 import { AuthContext } from '../context/AuthContext'
 
 const Home = () => {
-    const { user, updateIsNew } = useContext(AuthContext)
+    const { user, isLoading, checkToken, updateIsNew } = useContext(AuthContext)
 
     const handleCloseForm = () => {
+        console.log('Si da')
         updateIsNew()
     }
+
+    useEffect(() => {
+        checkToken()
+    }, [])
+
+    if (isLoading) return <p>Cargando...</p>
 
     return (
         <div>

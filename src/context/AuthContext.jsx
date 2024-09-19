@@ -71,6 +71,7 @@ export const AuthProvider = ({ children }) => {
             }
         } else {
             setIsAuthenticated(false)
+            setIsLoading(false)
         }
     }
 
@@ -119,6 +120,10 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await updateIsNewRequest()
             console.log(response)
+            setUser(prevUser => ({
+                ...prevUser,
+                is_new: false
+            }))
             return true
         } catch (error) {
             console.log(`Método actualizar nuevo usuario: ${error}`)
@@ -133,6 +138,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             signUp,
             signIn,
+            checkToken,
             updateAccount,
             updateProfileImg,
             updatePassword,
