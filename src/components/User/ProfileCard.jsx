@@ -8,7 +8,7 @@ const ProfileCard = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showEditButton, setShowEditButton] = useState(false)
     const [isAvatarTableOpen, setIsAvatarTableOpen] = useState(false)
-    const { user, level, xpRequired } = useContext(AuthContext)
+    const { user, level, xpRequired, updateProfileImg } = useContext(AuthContext)
 
     const handleFormChange = type => {
         setFormType(type)
@@ -26,6 +26,11 @@ const ProfileCard = () => {
         setIsAvatarTableOpen(false)
     }
 
+    const handleUpdateAvatar = async url => {
+        await updateProfileImg(url)
+        setIsAvatarTableOpen(false)
+    }
+
     return (
         <div>
             <h1>INFORMACIÓN PERSONAL</h1>
@@ -37,8 +42,8 @@ const ProfileCard = () => {
                     <button onClick={handleOpenAvatarTable}
                         style={{
                             position: 'absolute',
-                            top: '10px',
-                            right: '10px',
+                            top: '60px',
+                            right: '60px',
                             backgroundColor: 'white',
                             borderRadius: '50%',
                             border: 'none',
@@ -50,7 +55,7 @@ const ProfileCard = () => {
                 )}
             </div>
 
-            {isAvatarTableOpen && <AvatarTable onClose={closeAvatarTable} />}
+            {isAvatarTableOpen && <AvatarTable onClose={closeAvatarTable} updateAvatar={handleUpdateAvatar} />}
 
             <div>
                 <h3>Nombre</h3>

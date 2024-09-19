@@ -6,7 +6,8 @@ import {
     loginAccountRequest,
     updateAccountRequest,
     updateIsNewRequest,
-    updatePasswordRequest
+    updatePasswordRequest,
+    updateProfileImgRequest
 } from '../services/user-service'
 
 export const AuthContext = createContext()
@@ -84,6 +85,21 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const updateProfileImg = async profile_img => {
+        setUserErrors([])
+        try {
+            const response = await updateProfileImgRequest(profile_img)
+            console.log(response)
+            setUser(prevUser => ({
+                ...prevUser,
+                profile_img: profile_img
+            }))
+            return true
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updatePassword = async user => {
         setUserErrors([])
         try {
@@ -118,6 +134,7 @@ export const AuthProvider = ({ children }) => {
             signUp,
             signIn,
             updateAccount,
+            updateProfileImg,
             updatePassword,
             updateIsNew,
             user,
