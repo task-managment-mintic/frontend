@@ -50,6 +50,14 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const signOut = () => {
+        localStorage.removeItem('auth_token')
+        setIsAuthenticated(false)
+        setUser(null)
+        setLevel(0)
+        setXpRequired(0)
+    }
+
     const checkToken = async () => {
         const token = localStorage.getItem('auth_token')
         if (token) {
@@ -138,6 +146,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             signUp,
             signIn,
+            signOut,
             checkToken,
             updateAccount,
             updateProfileImg,
