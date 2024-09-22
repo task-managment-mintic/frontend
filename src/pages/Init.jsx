@@ -3,6 +3,8 @@ import LoginForm from '../components/User/LoginForm'
 import RegisterForm from '../components/User/RegisterForm'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { Button, Dialog, DialogContent, Grid2, IconButton } from '@mui/material'
+import { Clear } from '@mui/icons-material'
 
 const Init = () => {
     const [isLogin, setIsLogin] = useState(false)
@@ -29,19 +31,32 @@ const Init = () => {
 
 
     return (
-        <div>
-            {!isLogin && !isRegister && (
-                <div>
-                    Página inicial
-                    <button onClick={handleShowLogin}>Iniciar Sesión</button>
-                    <button onClick={handleShowRegister}>Regístrate!</button>
-                </div>
-            )}
-            {(isLogin || isRegister) && (
-                <button onClick={handleGoBack}>Volver</button>
-            )}
-            {isLogin && <LoginForm openRegister={handleShowRegister}/>}
-            {isRegister && <RegisterForm openLogin={handleShowLogin}/>}
+        <div style={{ textAlign: 'center', padding:'2rem' }}>
+            <Grid2 container spacing={2} justifyContent='center'>
+                <Grid2 item>
+                    <Button variant='contained' onClick={handleShowLogin}>Iniciar Sesión</Button>
+                    <Button variant='text' onClick={handleShowRegister}>Regístrate!</Button>
+                </Grid2>
+            </Grid2>
+
+            <Dialog open={isLogin || isRegister} onClose={handleGoBack} maxWidth='sm'>
+                <DialogContent>
+                    <IconButton sx={{
+                        bgcolor: 'red',
+                        color: 'white',
+                        '&:hover': {
+                            bgcolor: 'lightpink',
+                            color: 'black'
+                        }
+                    }}
+                        onClick={handleGoBack}
+                    >
+                        <Clear />
+                    </IconButton>
+                    {isLogin && <LoginForm openRegister={handleShowRegister}/>}
+                    {isRegister && <RegisterForm openLogin={handleShowLogin}/>}
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }
