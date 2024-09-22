@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [userErrors, setUserErrors] = useState([])
-    const [loginError, setLoginError] = useState('')
 
     const signUp = async user => {
         setIsLoading(true)
@@ -38,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
     const signIn = async user => {
         setIsLoading(true)
-        setLoginError('')
+        setUserErrors('')
         try {
             const response = await loginAccountRequest(user)
             localStorage.setItem('auth_token', response.data.token)
@@ -46,7 +45,7 @@ export const AuthProvider = ({ children }) => {
             return true
         } catch (error) {
             setIsLoading(false)
-            setLoginError(error.response.data.message)
+            setUserErrors([error.response.data.message])
         }
     }
 
@@ -166,8 +165,7 @@ export const AuthProvider = ({ children }) => {
             xpRequired,
             isAuthenticated,
             isLoading,
-            userErrors,
-            loginError
+            userErrors
         }}>
             {children}
         </AuthContext.Provider>

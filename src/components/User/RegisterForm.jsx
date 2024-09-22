@@ -35,7 +35,7 @@ const RegisterForm = ({ openLogin }) => {
                 {userErrors.map((error, index) => (
                     <Alert key={index}
                         severity='error'
-                        style={{ animationDelay: `${index * 0.25}s`}}
+                        style={{ animationDelay: `${index * 0.25}s`, marginTop: '2px' }}
                         className='animate-fade-out'
                     >
                         {error}
@@ -74,7 +74,7 @@ const RegisterForm = ({ openLogin }) => {
                         <Grid2 size={6}>
                             <PwdInput id='confirm_password' label='Confirmar Contraseña' register={register}/>
                         </Grid2>
-                        
+
                         <Grid2 size={12}
                             sx={{
                                 display: 'flex',
@@ -84,6 +84,7 @@ const RegisterForm = ({ openLogin }) => {
                             }}
                         >
                             <Button variant='contained'
+                                type='submit'
                                 fullWidth
                                 sx={{
                                     marginBottom: '10px',

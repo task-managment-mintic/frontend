@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import { Alert, Box, Button, Grid2, Typography } from '@mui/material'
+import Input from '../ui/Input'
+import PwdInput from '../ui/PwdInput'
 
 const LoginForm = ({ openRegister }) => {
-    const { loginError, signIn } = useContext(AuthContext)
+    const { userErrors, signIn } = useContext(AuthContext)
     const { register, handleSubmit } = useForm()
     const navigate = useNavigate()
 
@@ -25,29 +28,66 @@ const LoginForm = ({ openRegister }) => {
     })
 
     return (
-        <div>
-            {loginError && (
-                <div className='fixed top-4 right-4 flex flex-col space-y-2 z-50'>
-                    <div className='bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 animate-fade-out'
-                        style={{ animationDelay: `0.25s` }}
+        <div>  
+            <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 50 }}>
+                {userErrors && (
+                    <Alert severity='error'
+                        style={{ animationDelay: '0.25s' }}
+                        className='animate-fade-out'
                     >
-                        <div className="flex justify-between items-center">
-                            <span>{loginError}</span>
-                        </div>
-                    </div>
-                </div>
-            )}
-            <h1>INICIAR SESIÓN</h1>
-            <form onSubmit={onSubmit}>
-                <label htmlFor='logger'>Nombre de Usuario o Correo</label>
-                <input type='text' id='logger' {...register('logger')} />
+                        {userErrors}
+                    </Alert>
+                )}
+            </div>
+            <Box sx={{ flexGrow: 1, maxWidth: '400px', margin: '0 auto', padding: '10px' }}>
+                <form onSubmit={onSubmit}>
+                    <Grid2 container spacing={2}>
+                        <Grid2 size={12}>
+                            <Typography variant='h5' alignt='center'>
+                                INICIAR SESIÓN
+                            </Typography>
+                        </Grid2>
 
-                <label htmlFor='password'>Contraseña</label>
-                <input type='password' id='password' {...register('password')} />
+                        <Grid2 size={12}>
+                            <Input id='logger' label='Nombre de Usuario o Correo' register={register} />
+                        </Grid2>
 
-                <button>INGRESAR</button>
-                <button onClick={openRegister}>No tienes una cuenta? Crea una!</button>
-            </form>
+                        <Grid2 size={12}>
+                            <PwdInput id='password' label='Contraseña' register={register} />
+                        </Grid2>
+                        
+                        <Grid2 size={12}
+                            fullWidth
+                            sx={{
+                                display: 'flex',
+                                marginTop: '10px',
+                                flexDirection: 'column',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <Button variant='contained'
+                                type='submit'
+                                fullWidth
+                                sx={{
+                                    marginBottom: '10px',
+                                    width: '300px'
+                                }}
+                            >
+                                Iniciar Sesión
+                            </Button>
+                            <Button variant='text'
+                                onClick={openRegister}
+                                sx={{
+                                    width: '200px',
+                                    fontSize: '0.75rem'
+                                }}
+                            >   
+                                No tienes una cuenta? Crea una!
+                            </Button>
+                        </Grid2>
+                    </Grid2>
+                </form>
+            </Box>
         </div>
     )
 }
