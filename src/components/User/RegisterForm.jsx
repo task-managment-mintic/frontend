@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
-import { Alert, Box, Button, Grid2, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, Grid2, Typography } from '@mui/material'
 import PwdInput from '../ui/PwdInput'
+import Input from '../ui/Input'
 
 const RegisterForm = ({ openLogin }) => {
     const { userErrors, signUp } = useContext(AuthContext)
@@ -49,48 +50,31 @@ const RegisterForm = ({ openLogin }) => {
                                 Creación de Cuenta
                             </Typography>
                         </Grid2>
+
                         <Grid2 size={12}>
-                            <TextField id='first_name'
-                                label='Nombres'
-                                variant='outlined'
-                                {...register('first_name')}
-                                size='small'
-                                fullWidth
-                            />
+                            <Input id='first_name' label='Nombres' register={register} />
                         </Grid2>
+
                         <Grid2 size={12}>
-                            <TextField id='last_name'
-                                label='Apellidos'
-                                variant='outlined'
-                                {...register('last_name')}
-                                size='small'
-                                fullWidth
-                            />
+                            <Input id='last_name' label='Apellidos' register={register} />
                         </Grid2>
+
                         <Grid2 size={12}>
-                            <TextField id='nickname'
-                                label='Nombre de Usuario'
-                                variant='outlined'
-                                {...register('nickname')}
-                                size='small'
-                                fullWidth
-                            />
+                            <Input id='nickname' label='Nombre de Usuario' register={register} />
                         </Grid2>
+
                         <Grid2 size={12}>
-                            <TextField id='email'
-                                label='Correo Electrónico'
-                                variant='outlined'
-                                {...register('email')}
-                                size='small'
-                                fullWidth
-                            />
+                            <Input id='email' label='Correo Electrónico' register={register} type='email' />
                         </Grid2>
+
                         <Grid2 size={6}>
                             <PwdInput id='password' label='Contraseña' register={register} />
                         </Grid2>
+
                         <Grid2 size={6}>
                             <PwdInput id='confirm_password' label='Confirmar Contraseña' register={register}/>
                         </Grid2>
+                        
                         <Grid2 size={12}
                             sx={{
                                 display: 'flex',
