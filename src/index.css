@@ -10,3 +10,8 @@
 .animate-fade-out {
     animation: fade-out 5s forwards;
 }
+
+* {
+    padding: 0;
+    margin: 0;
+}
