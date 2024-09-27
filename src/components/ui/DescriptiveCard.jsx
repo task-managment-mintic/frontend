@@ -1,13 +1,13 @@
 import { Grid2 } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const DescriptiveCard = ({ bgColor, sectionIndex, imageSrc = '', children }) => {
+const DescriptiveCard = ({ sectionIndex, imageSrc = '', children }) => {
     const isImageLeft = sectionIndex % 2 === 0
 
     return (
         <div style={{
-                minHeight: '50vh',
-                backgroundColor: bgColor,
+                minHeight: '70vh',
+                backgroundColor: isImageLeft ? 'lightcoral' : 'white' ,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -15,16 +15,23 @@ const DescriptiveCard = ({ bgColor, sectionIndex, imageSrc = '', children }) => 
                 padding: '2rem'
             }}
         >
-            <Grid2 container spacing={1}
+            <Grid2 container spacing={4}
                 sx={{
-                    width: '100%',
+                    width: '80%',
                     display: 'flex',
                     flexDirection: isImageLeft ? 'row-reverse' : 'row'
                 }}
             >
                 {imageSrc !== '' && (
                     <Grid2 size={4}>
-                        <div style={{ width: '100px', height: '100px', backgroundColor: 'blue' }}></div>
+                        <img src={imageSrc}
+                            alt={`section-${sectionIndex}`}
+                            style={{
+                                width: '300px',
+                                height: '300px',
+                                objectFit: 'cover'
+                            }}
+                        />
                     </Grid2>
                 )}
                 <Grid2 size={imageSrc === '' ? 12 : 8}>
@@ -36,7 +43,6 @@ const DescriptiveCard = ({ bgColor, sectionIndex, imageSrc = '', children }) => 
 }
 
 DescriptiveCard.propTypes = {
-    bgColor: PropTypes.string.isRequired,
     sectionIndex: PropTypes.number.isRequired,
     imageSrc: PropTypes.string,
     children: PropTypes.node.isRequired
