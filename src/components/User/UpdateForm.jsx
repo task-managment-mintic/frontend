@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types'
-import { useContext, useEffect } from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import { useEffect } from 'react'
+import { useAuth } from '../../context/AuthContext'
 import { useForm } from 'react-hook-form'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 
 const UpdateForm = ({ formType, closeModal }) => {
-    const { user, userErrors, updateAccount, updatePassword } = useContext(AuthContext)
+    const { user, userErrors, updateAccount, updatePassword } = useAuth()
     const { register, handleSubmit, setValue } = useForm()
     const navigate = useNavigate()
 

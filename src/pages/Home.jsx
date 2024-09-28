@@ -1,10 +1,10 @@
 import { useContext, useEffect } from 'react'
 import InitialForm from '../components/Hobby/InitialForm'
-import { AuthContext } from '../context/AuthContext'
+import { useAuth } from '../context/AuthContext'
 import { HobbyContext } from '../context/HobbyContext'
 
 const Home = () => {
-    const { user, isLoading, checkToken, updateIsNew } = useContext(AuthContext)
+    const { user, isLoading, checkToken, updateIsNew } = useAuth()
     const { hobbyErrors } = useContext(HobbyContext)
 
     const handleCloseForm = () => {

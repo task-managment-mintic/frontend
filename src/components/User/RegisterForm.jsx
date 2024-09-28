@@ -1,32 +1,18 @@
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
-import Swal from 'sweetalert2'
-import { useContext } from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { Alert, Box, Button, Grid2, Typography } from '@mui/material'
 import PwdInput from '../ui/PwdInput'
 import Input from '../ui/Input'
+import { useAuthHandler } from '../../hooks/useAuthHandler'
 
 const RegisterForm = ({ openLogin }) => {
-    const { userErrors, signUp } = useContext(AuthContext)
-    const {
-        register,
-        handleSubmit
-    } = useForm()
+    const { userErrors } = useAuth()
+    const { register, handleSubmit } = useForm()
+    const { registerUser } = useAuthHandler()
 
     const onSubmit = handleSubmit(async user => {
-        console.log(user.confirm_password)
-        const signUpResponse = await signUp(user)
-        if (signUpResponse) {
-            Swal.fire({
-                title: 'ÉXITO',
-                text: 'Tu cuenta ha sido creada con éxito, ahora debes iniciar sesión',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            }).then(() => {
-                openLogin()
-            }) 
-        }
+        registerUser(user, openLogin)
     })
 
     return (

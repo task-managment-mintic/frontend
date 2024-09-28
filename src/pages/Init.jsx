@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import LoginForm from '../components/User/LoginForm'
 import RegisterForm from '../components/User/RegisterForm'
-import { AuthContext } from '../context/AuthContext'
+import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Dialog, DialogContent, Grid2, IconButton, Typography } from '@mui/material'
 import { Clear } from '@mui/icons-material'
@@ -15,7 +15,7 @@ import { levelContent, financesContent } from '../constants/descriptiveTexts'
 const Init = () => {
     const [isLogin, setIsLogin] = useState(false)
     const [isRegister, setIsRegister] = useState(false)
-    const { isAuthenticated } = useContext(AuthContext)
+    const { isAuthenticated } = useAuth()
     const navigate = useNavigate()
 
     const handleShowLogin = () => {

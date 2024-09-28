@@ -1,30 +1,20 @@
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import { useContext } from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { Alert, Box, Button, Grid2, Typography } from '@mui/material'
 import Input from '../ui/Input'
 import PwdInput from '../ui/PwdInput'
+import { useAuthHandler } from '../../hooks/useAuthHandler'
 
 const LoginForm = ({ openRegister }) => {
-    const { userErrors, signIn } = useContext(AuthContext)
+    const { userErrors } = useAuth()
     const { register, handleSubmit } = useForm()
     const navigate = useNavigate()
+    const { loginUser } = useAuthHandler()
 
     const onSubmit = handleSubmit(async user => {
-        const signInRes = await signIn(user)
-        if (signInRes) {
-            Swal.fire({
-                title: 'Bienvenido/a!',
-                text: 'Has ingresado con éxito a la aplicación',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            }).then(() => {
-                navigate('/home')
-            })
-        }
+        loginUser(user, navigate)
     })
 
     return (

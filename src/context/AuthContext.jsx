@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import {
     createAccountRequest,
     getProfileRequest,
@@ -10,7 +10,7 @@ import {
     updateProfileImgRequest
 } from '../services/user-service'
 
-export const AuthContext = createContext()
+const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
@@ -175,3 +175,5 @@ export const AuthProvider = ({ children }) => {
 AuthProvider.propTypes = {
     children: PropTypes.node.isRequired
 }
+
+export const useAuth = () => useContext(AuthContext)

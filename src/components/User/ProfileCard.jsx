@@ -1,14 +1,14 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import UpdateForm from './UpdateForm'
 import AvatarTable from './AvatarTable'
-import { AuthContext } from '../../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 
 const ProfileCard = () => {
     const [formType, setFormType] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [showEditButton, setShowEditButton] = useState(false)
     const [isAvatarTableOpen, setIsAvatarTableOpen] = useState(false)
-    const { user, level, xpRequired, updateProfileImg } = useContext(AuthContext)
+    const { user, level, xpRequired, updateProfileImg } = useAuth()
 
     const handleFormChange = type => {
         setFormType(type)
