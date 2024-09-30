@@ -3,7 +3,7 @@ import UpdateForm from './UpdateForm'
 import AvatarTable from './AvatarTable'
 import { useAuth } from '../../context/AuthContext'
 import { Box, Button, Dialog, DialogContent, Grid2, IconButton, LinearProgress, Typography } from '@mui/material'
-import { Edit } from '@mui/icons-material'
+import { Clear, Edit } from '@mui/icons-material'
 
 const ProfileCard = () => {
     const [formType, setFormType] = useState(null)
@@ -138,13 +138,25 @@ const ProfileCard = () => {
                 </Grid2>
             </Grid2>
 
-            <Dialog open={isAvatarTableOpen} maxWidth='sm'>
+            <Dialog open={isAvatarTableOpen} maxWidth='md'>
                 <DialogContent>
+                    <IconButton sx={{
+                        bgcolor: 'red',
+                        color: 'white',
+                        '&:hover': {
+                            bgcolor: 'lightpink',
+                            color: 'black'
+                        }
+                    }}
+                        onClick={closeAvatarTable}
+                    >
+                        <Clear />
+                    </IconButton>
                     <AvatarTable onClose={closeAvatarTable} updateAvatar={handleUpdateAvatar} />
                 </DialogContent>
             </Dialog>
 
-            <Dialog open={isModalOpen} onClose={closeModal} maxWidth='sm'>
+            <Dialog open={isModalOpen} onClose={closeModal}>
                 <DialogContent>
                     <UpdateForm formType={formType} closeModal={closeModal} />
                 </DialogContent>
