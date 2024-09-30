@@ -74,12 +74,23 @@ const InitialForm = ({ userName, onClose }) => {
                         </Grid2>
                     </Grid2>
                 </form>
-            )   : (
-                <div>
-                    <h3>EXCELENTE!</h3>
-                    <p>Ahora que has registrado tus hobbies, puedes empezar a explorar nuestra aplicación y darle un uso</p>    
-                    <button onClick={onClose}>A darle!</button>
-                </div>
+            ) :
+            (
+                <Grid2 container spacing={4}>
+                    <Grid2 size={12}>
+                        <Typography variant='h4' align='center'>
+                            EXCELENTE!        
+                        </Typography>        
+                    </Grid2>
+                    <Grid2 size={12}>
+                        <Typography variant='body1' align='center'>
+                            Ahora que has registrado tus hobbies, puedes empezar a explorar nuestra aplicación y darle un uso        
+                        </Typography>
+                    </Grid2>
+                    <Grid2 size={12} sx={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
+                        <Button onClick={onClose} variant='contained'>A darle!</Button>
+                    </Grid2>
+                </Grid2>
             )}
         </Box>
     )
