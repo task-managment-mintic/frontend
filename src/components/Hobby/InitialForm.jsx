@@ -2,6 +2,8 @@ import { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { HobbyContext } from '../../context/HobbyContext'
+import { Box, Button, FormControl, Grid2, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import Input from '../ui/Input'
 
 const InitialForm = ({ userName, onClose }) => {
     const [step, setStep] = useState(1)
@@ -25,24 +27,52 @@ const InitialForm = ({ userName, onClose }) => {
     })
 
     return (
-        <div>
+        <Box sx={{ flexGrow: 1, maxWidth: '600px', margin: '0 auto', padding: '10px' }}>
             {step !== 3 ? (
                 <form onSubmit={onSubmit}>
-                    <h3>Bienvenido a Nombre App, {userName}:</h3>
-                    <p>Para una experiencia más personalizada en tu sistema de recompensas es necesario que registres al menos dos hobbies que disfrutes hacer, puede ser actividades como dibujar, bailar u objetos como las hamburguesas, los libros, etc.</p>
-                    <label htmlFor='name'>Ingresa tu {step === 1 ? 'primer' : 'segundo'} hobby:</label>
-                    <input type='text' id='name' {...register('name')} />
+                    <Grid2 container spacing={2}>
+                        <Grid2 size={12}>
+                            <Typography variant='h5' align='center'>
+                                Bienvenido a Nombre App, {userName}:
+                            </Typography>
+                        </Grid2>
 
-                    <label>Tipo de hobby:</label>
-                    <select id='hobby_type' {...register('hobby_type')}>
-                        <option value=''>:.</option>
-                        <option value='actividad'>Actividad</option>
-                        <option value='objeto'>Objeto</option>
-                    </select>
-                    
-                    <button type='submit'>
-                        {step === 1 ? 'Siguiente' : 'Guardar'}
-                    </button>
+                        <Grid2 size={12}>
+                            <Typography variant='body1'>
+                                Para una experiencia más personalizada en tu sistema de recompensas es necesario que registres al menos dos hobbies que disfrutes hacer, puede ser actividades como dibujar, bailar u objetos como las hamburguesas, los libros, etc.
+                            </Typography>
+                        </Grid2>
+                        
+                        <Grid2 size={6}>
+                            <Input id='name' label={`Ingresa tu ${step === 1 ? 'primer' : 'segundo'} hobby:`} register={register} />
+                        </Grid2>
+
+                        <Grid2 size={6}>
+                            <FormControl>
+                                <InputLabel id='hobby_type_label'>Tipo de Hobby</InputLabel>
+                                <Select labelId='hobby_type_label'
+                                    id='hobby_type'
+                                    label='Tipo de Hobby'
+                                    defaultValue=''
+                                    {...register('hobby_type')}
+                                    sx={{ minWidth: '20vw' }}
+                                    size='small'
+                                >
+                                    <MenuItem value=''>
+                                        <em>:.</em>
+                                    </MenuItem>
+                                    <MenuItem value='actividad'>Actividad</MenuItem>
+                                    <MenuItem value='objeto'>Objeto</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid2>
+
+                        <Grid2 size={12}>
+                            <Button type='submit' variant='contained'>
+                                {step === 1 ? 'Siguiente' : 'Guardar'}
+                            </Button>
+                        </Grid2>
+                    </Grid2>
                 </form>
             )   : (
                 <div>
@@ -51,7 +81,7 @@ const InitialForm = ({ userName, onClose }) => {
                     <button onClick={onClose}>A darle!</button>
                 </div>
             )}
-        </div>
+        </Box>
     )
 }
 

@@ -2,13 +2,13 @@ import { useContext, useEffect } from 'react'
 import InitialForm from '../components/Hobby/InitialForm'
 import { useAuth } from '../context/AuthContext'
 import { HobbyContext } from '../context/HobbyContext'
+import { Dialog, DialogContent } from '@mui/material'
 
 const Home = () => {
     const { user, isLoading, checkToken, updateIsNew } = useAuth()
     const { hobbyErrors } = useContext(HobbyContext)
 
     const handleCloseForm = () => {
-        console.log('Si da')
         updateIsNew()
     }
 
@@ -33,7 +33,11 @@ const Home = () => {
                 ))}
             </div>
             Home de la página
-            {user.is_new && <InitialForm userName={user.first_name} onClose={handleCloseForm} /> }
+            <Dialog open={user.is_new} maxWidth='sm'>
+                <DialogContent>
+                    <InitialForm userName={user.first_name} onClose={handleCloseForm} />
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }
