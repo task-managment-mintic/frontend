@@ -1,13 +1,13 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
-import { HobbyContext } from '../../context/HobbyContext'
+import { useHobby } from '../../context/HobbyContext'
 import { Box, Button, FormControl, Grid2, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import Input from '../ui/Input'
 
 const InitialForm = ({ userName, onClose }) => {
     const [step, setStep] = useState(1)
-    const { createHobby } = useContext(HobbyContext)
+    const { createHobby } = useHobby()
     const { register, handleSubmit, reset } = useForm()
 
     const onSubmit = handleSubmit(async hobby => {

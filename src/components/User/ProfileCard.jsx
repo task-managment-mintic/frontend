@@ -2,6 +2,8 @@ import { useState } from 'react'
 import UpdateForm from './UpdateForm'
 import AvatarTable from './AvatarTable'
 import { useAuth } from '../../context/AuthContext'
+import { Box, Button, Dialog, DialogContent, Grid2, IconButton, LinearProgress, Typography } from '@mui/material'
+import { Edit } from '@mui/icons-material'
 
 const ProfileCard = () => {
     const [formType, setFormType] = useState(null)
@@ -9,6 +11,8 @@ const ProfileCard = () => {
     const [showEditButton, setShowEditButton] = useState(false)
     const [isAvatarTableOpen, setIsAvatarTableOpen] = useState(false)
     const { user, level, xpRequired, updateProfileImg } = useAuth()
+
+    const xpPercentage = (user.xp / xpRequired) * 100
 
     const handleFormChange = type => {
         setFormType(type)
@@ -32,49 +36,120 @@ const ProfileCard = () => {
     }
 
     return (
-        <div>
-            <h1>INFORMACIÓN PERSONAL</h1>
-            <div onMouseEnter={() => setShowEditButton(true)}
-                onMouseLeave={() => setShowEditButton(false)}
-            >
-                <img alt='profile-img' src={`https://res.cloudinary.com/dgm8dtsce/image/upload/${user.profile_img}`} />
-                {showEditButton && (
-                    <button onClick={handleOpenAvatarTable}
-                        style={{
-                            position: 'absolute',
-                            top: '60px',
-                            right: '60px',
-                            backgroundColor: 'white',
-                            borderRadius: '50%',
-                            border: 'none',
-                            padding: '5px',
-                            cursor: 'pointer',
-                            boxShadow: '0px 4px 8px rgba(0,0,0,0.2)'
+        <>
+            <Grid2 container spacing={2}>
+                <Grid2 size={12}>
+                    <Typography variant='h5'>INFORMACIÓN PERSONAL</Typography>
+                </Grid2>
+
+                <Grid2 size={6}>
+                    <Box onMouseEnter={() => setShowEditButton(true)}
+                        onMouseLeave={() => setShowEditButton(false)}
+                        sx={{
+                            position: 'relative',
+                            width: '150px',
+                            height: '150px',
+                            mx: 'auto'
                         }}
-                    >✏️</button>
-                )}
-            </div>
+                    >
+                        <img alt='profile-img'
+                            src={`https://res.cloudinary.com/dgm8dtsce/image/upload/${user.profile_img}`}
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                borderRadius: '8px'
+                            }}
+                        />
+                        {showEditButton && (
+                            <IconButton sx={{
+                                color: 'black',
+                                position: 'absolute',
+                                top: '5px',
+                                right: '5px'
+                            }}
+                                onClick={handleOpenAvatarTable}
+                            >
+                                <Edit />
+                            </IconButton>
+                        )}
+                    </Box>
+                </Grid2>
 
-            {isAvatarTableOpen && <AvatarTable onClose={closeAvatarTable} updateAvatar={handleUpdateAvatar} />}
+                <Grid2 size={6} container spacing={1}>
+                    <Grid2 size={6}>
+                        <Typography variant='body1'>NOMBRE</Typography>
+                        <Typography variant='body2'>{user.first_name} {user.last_name}</Typography>
+                    </Grid2>
 
-            <div>
-                <h3>Nombre</h3>
-                <p>{user.first_name} {user.last_name}</p>
-                <h3>Nombre de Usuario</h3>
-                <p>{user.nickname}</p>
-                <h3>Correo electrónico</h3>
-                <p>{user.email}</p>
-                <div>
-                    <p>Lvl. {level}</p>
-                    Barra de experiencia
-                    <p>{user.xp}/{xpRequired}XP</p>
-                </div>
-                <button onClick={() => handleFormChange('profile')}>Actualizar información</button>
-                <button onClick={() => handleFormChange('password')}>Actualizar contraseña</button>
+                    <Grid2 size={6}>
+                        <Typography variant='body1'>NOMBRE DE USUARIO</Typography>
+                        <Typography variant='body2'>{user.nickname}</Typography>
+                    </Grid2>
 
-                {isModalOpen && <UpdateForm formType={formType} closeModal={closeModal} />}
-            </div>
-        </div>
+                    <Grid2 size={12}>
+                        <Typography variant='body1'>CORREO ELECTRÓNICO</Typography>
+                        <Typography variant='body2'>{user.email}</Typography>
+                    </Grid2>
+                </Grid2>
+
+                <Grid2 size={12} container spacing={1}>
+                    <Grid2 size={12}>
+                        <Typography variant='body2'>Nivel: {level}</Typography>
+                    </Grid2>
+                    <Grid2 size={10}>
+                        <LinearProgress variant='determinate' value={xpPercentage}
+                            sx={{
+                                height: 10,
+                                borderRadius: 5,
+                                backgroundColor: 'lightcyan',
+                                '& .MuiLinearProgress-bar': {
+                                    backgroundColor: 'cyan'
+                                }
+                            }}
+                        />
+                    </Grid2>
+                    <Grid2 size={2}>
+                        <Typography variant='body2'>{user.xp}/{xpRequired}XP</Typography>
+                    </Grid2>
+                </Grid2>
+
+                <Grid2 size={12} container spacing={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Button variant='contained'
+                        onClick={() => handleFormChange('profile')}
+                        sx={{
+                            fontSize: '12px',
+                            mb: '5px',
+                            px: '12px'
+                        }}
+                    >
+                        Actualizar información
+                    </Button>
+                    <Button variant='contained'
+                        onClick={() => handleFormChange('password')}
+                        sx={{
+                            fontSize: '12px',
+                            mb: '5px',
+                            px: '14px'
+                        }}
+                    >
+                        Actualizar contraseña
+                    </Button>
+                </Grid2>
+            </Grid2>
+
+            <Dialog open={isAvatarTableOpen} maxWidth='sm'>
+                <DialogContent>
+                    <AvatarTable onClose={closeAvatarTable} updateAvatar={handleUpdateAvatar} />
+                </DialogContent>
+            </Dialog>
+
+            <Dialog open={isModalOpen} onClose={closeModal} maxWidth='sm'>
+                <DialogContent>
+                    <UpdateForm formType={formType} closeModal={closeModal} />
+                </DialogContent>
+            </Dialog>
+        </>
     )
 }
 

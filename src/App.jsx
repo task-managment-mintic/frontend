@@ -6,7 +6,6 @@ import { AuthProvider } from './context/AuthContext'
 import NavBar from './components/NavBar'
 import { HobbyProvider } from './context/HobbyContext'
 import ProtectedRoute from './ProtectedRoute'
-import { Box } from '@mui/material'
 
 const App = () => {
     return (
@@ -15,15 +14,13 @@ const App = () => {
                 <div>
                     <BrowserRouter>
                         <ConditionalNavBar />
-                        <Box component='main' sx={{ flexGrow: 1, p: 3, ml: '200px'}}>
-                            <Routes>
-                                <Route path='/' element={<Init />} />
-                                <Route element={<ProtectedRoute />}> 
-                                    <Route path='/home' element={<Home />} />
-                                    <Route path='/profile' element={<Profile />} />
-                                </Route>
-                            </Routes>
-                        </Box>
+                        <Routes>
+                            <Route path='/' element={<Init />} />
+                            <Route element={<ProtectedRoute />}> 
+                                <Route path='/home' element={<Home />} />
+                                <Route path='/profile' element={<Profile />} />
+                            </Route>
+                        </Routes>
                     </BrowserRouter>
                 </div>
             </HobbyProvider>

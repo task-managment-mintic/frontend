@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from 'react'
-import { HobbyContext } from '../../context/HobbyContext'
+import { useEffect, useState } from 'react'
+import { useHobby } from '../../context/HobbyContext'
 
 const HobbyList = () => {
     const [isAdding, setIsAdding] = useState(false)
     const [newHobby, setNewHobby] = useState({name: '', hobby_type: '' })
-    const { hobbiesList, createHobby, fetchHobbiesList } = useContext(HobbyContext)
+    const { hobbiesList, createHobby, fetchHobbiesList } = useHobby()
 
     const handleAddHobby = () => {
         setIsAdding(true)

@@ -1,12 +1,12 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import InitialForm from '../components/Hobby/InitialForm'
 import { useAuth } from '../context/AuthContext'
-import { HobbyContext } from '../context/HobbyContext'
-import { Dialog, DialogContent } from '@mui/material'
+import { useHobby } from '../context/HobbyContext'
+import { Box, Dialog, DialogContent } from '@mui/material'
 
 const Home = () => {
     const { user, isLoading, checkToken, updateIsNew } = useAuth()
-    const { hobbyErrors } = useContext(HobbyContext)
+    const { hobbyErrors } = useHobby()
 
     const handleCloseForm = () => {
         updateIsNew()
@@ -19,7 +19,7 @@ const Home = () => {
     if (isLoading) return <p>Cargando...</p>
 
     return (
-        <div>
+        <Box component='main' sx={{ flexGrow: 1, p: 3, ml: '200px'}}>
             <div className='fixed top-4 right-4 flex flex-col space-y-2 z-50'>
                 {hobbyErrors.map((error, index) => (
                     <div key={index}
@@ -38,7 +38,7 @@ const Home = () => {
                     <InitialForm userName={user.first_name} onClose={handleCloseForm} />
                 </DialogContent>
             </Dialog>
-        </div>
+        </Box>
     )
 }
 
