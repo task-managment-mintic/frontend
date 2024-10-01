@@ -142,15 +142,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (userErrors.length > 0) {
-            const timer = setTimeout(() => {
-                setUserErrors([])
-            }, 4000)
-            return () => clearTimeout(timer)
-        }
-    }, [userErrors])
-
-    useEffect(() => {
         checkToken()
     }, [])
 

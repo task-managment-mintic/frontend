@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../../context/AuthContext'
-import { Alert, Box, Button, Grid2, Typography } from '@mui/material'
+import { Box, Button, Grid2, Typography } from '@mui/material'
 import PwdInput from '../ui/PwdInput'
 import Input from '../ui/Input'
 import { useAuthHandler } from '../../hooks/useAuthHandler'
+import { useErrors } from '../../hooks/useErrors'
+import ErrorDisplay from '../ui/ErrorDisplay'
 
 const RegisterForm = ({ openLogin }) => {
     const { userErrors } = useAuth()
     const { register, handleSubmit } = useForm()
     const { registerUser } = useAuthHandler()
+    const { errors } = useErrors()
 
     const onSubmit = handleSubmit(async user => {
         registerUser(user, openLogin)
@@ -17,17 +20,7 @@ const RegisterForm = ({ openLogin }) => {
 
     return (
         <div>
-            <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 50 }}>
-                {userErrors.map((error, index) => (
-                    <Alert key={index}
-                        severity='error'
-                        style={{ animationDelay: `${index * 0.25}s`, marginTop: '2px' }}
-                        className='animate-fade-out'
-                    >
-                        {error}
-                    </Alert>
-                ))}
-            </div>
+            {userErrors.length > 0 && <ErrorDisplay errors={errors} />}
             <Box sx={{ flexGrow: 1, maxWidth: '400px', margin: '0 auto', padding: '10px' }}>
                 <form onSubmit={onSubmit}>
                     <Grid2 container spacing={2}>

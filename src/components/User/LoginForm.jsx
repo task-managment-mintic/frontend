@@ -2,33 +2,27 @@ import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { Alert, Box, Button, Grid2, Typography } from '@mui/material'
+import { Box, Button, Grid2, Typography } from '@mui/material'
 import Input from '../ui/Input'
 import PwdInput from '../ui/PwdInput'
 import { useAuthHandler } from '../../hooks/useAuthHandler'
+import { useErrors } from '../../hooks/useErrors'
+import ErrorDisplay from '../ui/ErrorDisplay'
 
 const LoginForm = ({ openRegister }) => {
     const { userErrors } = useAuth()
     const { register, handleSubmit } = useForm()
     const navigate = useNavigate()
     const { loginUser } = useAuthHandler()
+    const { errors } = useErrors()
 
     const onSubmit = handleSubmit(async user => {
         loginUser(user, navigate)
     })
 
     return (
-        <div>  
-            <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 50 }}>
-                {userErrors && (
-                    <Alert severity='error'
-                        style={{ animationDelay: '0.25s' }}
-                        className='animate-fade-out'
-                    >
-                        {userErrors}
-                    </Alert>
-                )}
-            </div>
+        <div>
+            {userErrors.length > 0 && <ErrorDisplay errors={errors} />}
             <Box sx={{ flexGrow: 1, maxWidth: '400px', margin: '0 auto', padding: '10px' }}>
                 <form onSubmit={onSubmit}>
                     <Grid2 container spacing={2}>
