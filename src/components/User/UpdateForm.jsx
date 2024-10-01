@@ -10,7 +10,7 @@ import Input from '../ui/Input'
 import PwdInput from '../ui/PwdInput'
 
 const UpdateForm = ({ formType, closeModal }) => {
-    const { user, userErrors, updateAccount, updatePassword } = useAuth()
+    const { user, updateAccount, updatePassword } = useAuth()
     const { register, handleSubmit, setValue } = useForm()
     const navigate = useNavigate()
 
@@ -58,18 +58,6 @@ const UpdateForm = ({ formType, closeModal }) => {
 
     return (
         <div>
-            <div className='fixed top-4 right-4 flex flex-col space-y-2 z-50'>
-                {userErrors.map((error, index) => (
-                    <div key={index}
-                        className='bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 animate-fade-out'
-                        style={{ animationDelay: `${index * 0.25}s` }}
-                    >
-                        <div className="flex justify-between items-center">
-                            <span>{error}</span>
-                        </div>
-                    </div>
-                ))}
-            </div>
             <IconButton sx={{
                 bgcolor: 'red',
                 color: 'white',
@@ -106,18 +94,20 @@ const UpdateForm = ({ formType, closeModal }) => {
 
             {formType === 'password' && (
                 <form onSubmit={onSubmitPwd}>
-                    <Grid2 container spacing={2} sx={{ width: '250px', mt: 1 }}>
-                        <Grid2 container>
+                    <Grid2 container spacing={2} sx={{ width: '270px', mt: 1 }}>
+                        <Grid2>
                             <PwdInput id='current_password' label='Contraseña Anterior' register={register} />
                         </Grid2>
-                        <Grid2 container>
+                        <Grid2>
                             <PwdInput id='password' label='Nueva Contraseña' register={register} />
                         </Grid2>
-                        <Grid2 container>
+                        <Grid2>
                             <PwdInput id='confirm_password' label='Confirmar Nueva Contraseña' register={register} />
                         </Grid2>
+                        <Grid2>
+                            <Button variant='contained'>Actualizar</Button>
+                        </Grid2>
                     </Grid2>
-                    <button>Actualizar</button>
                 </form>
             )}
 

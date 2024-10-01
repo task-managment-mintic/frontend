@@ -89,7 +89,11 @@ export const AuthProvider = ({ children }) => {
             setUser(response.data.user)
             return true
         } catch (error) {
-            setUserErrors(error.response.data.errors.map(err => err.message))
+            if (error.response.status === 404) {
+                setUserErrors([error.response.data.message])
+            } else {
+                setUserErrors(error.response.data.errors.map(err => err.message))
+            }
         }
     }
 

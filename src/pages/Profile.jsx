@@ -1,10 +1,12 @@
 import HobbyList from '../components/Hobby/HobbyList'
 import ProfileCard from '../components/User/ProfileCard'
+import { useAuth } from '../context/AuthContext'
 import { useHobby } from '../context/HobbyContext'
-import { Box, Grid2 } from '@mui/material'
+import { Alert, Box, Grid2 } from '@mui/material'
 
 const Profile = () => {
     const { hobbyErrors } = useHobby()
+    const { userErrors } = useAuth()
 
     return (
         <Box component='main' sx={{ flexGrow: 1, p: 3, ml: '200px'}}>
@@ -18,6 +20,17 @@ const Profile = () => {
                             <span>{error}</span>
                         </div>
                     </div>
+                ))}
+            </div>
+            <div style={{ position: 'fixed', top: 16, right: 16, zIndex: 50 }}>
+                {userErrors.map((error, index) => (
+                    <Alert key={index}
+                        severity='error'
+                        style={{ animationDelay: `${index * 0.25}s`, marginTop: '2px' }}
+                        className='animate-fade-out'
+                    >
+                        {error}
+                    </Alert>
                 ))}
             </div>
             <Box sx={{ p: 3 }}>
