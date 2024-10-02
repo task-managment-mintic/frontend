@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useHobby } from '../../context/HobbyContext'
+import { Button, Grid2, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import Input from '../ui/Input'
+import SelectInput from '../ui/SelectInput'
 
 const HobbyList = () => {
     const [isAdding, setIsAdding] = useState(false)
@@ -33,33 +36,65 @@ const HobbyList = () => {
     }, [])
 
     return (
-        <div>
-            <h2>Hobbies y Gustos</h2>
-            {hobbiesList.map((hobby, index) => (
-                <div key={index} className='flex gap-3'>
-                    <p>{hobby.name}</p>
-                    <p>{hobby.hobby_type}</p>
-                </div>
-            ))}
-            {isAdding && 
-                <div>
-                    <input type='text'
-                        name='name'
-                        value={newHobby.name}
-                        onChange={handleChange}
-                        placeholder='Nuevo Hobby'
-                    />
-                    <select name='hobby_type' value={newHobby.hobby_type} onChange={handleChange}>
-                        <option value=''>:.</option>
-                        <option value='actividad'>Actividad</option>
-                        <option value='objeto'>Objeto</option>
-                    </select>
-                </div>
-            }
-            <button onClick={isAdding ? handleSaveHobby : handleAddHobby}>
-                {isAdding ? 'Guardar Hobby' : 'Agregar Hobby Nuevo'}
-            </button>
-        </div>
+        <Grid2 container spacing={4}>
+            <Grid2 size={12}>
+                <h2>Hobbies y Gustos</h2>
+            </Grid2>
+            <Grid2 size={12}>
+                <TableContainer>
+                    <Table aria-label='hobby table'>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align='left'>Nombre Hobby</TableCell>
+                                <TableCell align='left'>Tipo Hobby</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {hobbiesList.map((hobby, index) => (
+                                <TableRow key={index}>
+                                    <TableCell align='left'>{hobby.name}</TableCell>
+                                    <TableCell align='left'>{hobby.hobby_type}</TableCell>
+                                </TableRow>
+                            ))}
+                            <TableRow>
+                                <TableCell colSpan={2}>
+                                    {isAdding && 
+                                        <Grid2 container spacing={1}>
+                                            <Grid2 size={6}>
+                                                <Input id='name' label='Nuevo Hobby' value={newHobby.name} onChange={handleChange} />
+                                            </Grid2>
+                                            <Grid2 size={6}>
+                                                <SelectInput id='hobby_type'
+                                                    labelId='hobby_type_label'
+                                                    label='Tipo de Hobby'
+                                                    value={newHobby.hobby_type}
+                                                    onChange={handleChange}
+                                                    minWidth='15vw'
+                                                >
+                                                    <MenuItem value=''>
+                                                        <em>:.</em>
+                                                    </MenuItem>
+                                                    <MenuItem value='actividad'>Actividad</MenuItem>
+                                                    <MenuItem value='objeto'>Objeto</MenuItem>
+                                                </SelectInput>
+                                            </Grid2>
+                                        </Grid2>
+                                    }
+                                    <Button variant='contained'
+                                        onClick={isAdding ? handleSaveHobby : handleAddHobby}
+                                        sx={{
+                                            fontSize: '12px'
+                                        }}
+                                    >
+                                        {isAdding ? 'Guardar Hobby' : 'Agregar Hobby Nuevo'}
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid2>
+        </Grid2>
     )
 }
 
