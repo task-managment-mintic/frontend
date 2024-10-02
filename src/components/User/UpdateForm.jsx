@@ -2,49 +2,25 @@ import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { useForm } from 'react-hook-form'
-import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import { Button, Grid2, IconButton } from '@mui/material'
 import { Clear } from '@mui/icons-material'
 import Input from '../ui/Input'
 import PwdInput from '../ui/PwdInput'
+import { useAuthHandler } from '../../hooks/useAuthHandler'
 
 const UpdateForm = ({ formType, closeModal }) => {
-    const { user, updateAccount, updatePassword } = useAuth()
+    const { user } = useAuth()
+    const { updateUserProfile, updateUserPassword } = useAuthHandler()
     const { register, handleSubmit, setValue } = useForm()
     const navigate = useNavigate()
 
     const onSubmitInfo = handleSubmit(async user => {
-        const userUpdated = await updateAccount(user)
-        if (userUpdated) { 
-            Swal.fire({
-                title: 'ÉXITO',
-                text: 'Datos actualizados!',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            }).then(() => {
-                closeModal()
-            })
-        } else {
-            console.log('error')
-        }
+        await updateUserProfile(user, closeModal)
     })
 
     const onSubmitPwd = handleSubmit(async user => {
-        const pwdUpdated = await updatePassword(user)
-        if (pwdUpdated) {
-            Swal.fire({
-                title: 'Contraseña actualizada!',
-                text: 'Se cerrará sesión y deberás iniciar de nuevo con tu nueva contraseña',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            }).then(() => {
-                localStorage.removeItem('auth_token')
-                navigate('/')
-            })
-        } else {
-            console.log('error')
-        }
+        await updateUserPassword(user, navigate)
     })
 
     useEffect(() => {
@@ -105,7 +81,7 @@ const UpdateForm = ({ formType, closeModal }) => {
                             <PwdInput id='confirm_password' label='Confirmar Nueva Contraseña' register={register} />
                         </Grid2>
                         <Grid2>
-                            <Button variant='contained'>Actualizar</Button>
+                            <Button variant='contained' type='submit'>Actualizar</Button>
                         </Grid2>
                     </Grid2>
                 </form>

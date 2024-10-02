@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 
 
 export const useAuthHandler = () => {
-    const { signIn, signUp } = useAuth()
+    const { signIn, signUp, updateAccount, updatePassword } = useAuth()
     const [errors, setErrors] = useState([])
 
     const loginUser = async (user, navigate) => {
@@ -35,5 +35,42 @@ export const useAuthHandler = () => {
         }
     }
 
-    return { loginUser, registerUser, errors }
+    const updateUserProfile = async (user, closeModal) => {
+        try {
+            const userUpdated = await updateAccount(user)
+            if (userUpdated) {
+                Swal.fire({
+                    title: 'ÉXITO',
+                    text: 'Datos actualizados correctamente',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                }).then(() => {
+                    if (closeModal) closeModal()
+                })
+            }
+        } catch (error) {
+            setErrors([error.message])
+        }
+    }
+
+    const updateUserPassword = async (user, navigate) => {
+        try {
+            const pwdUpdated = await updatePassword(user)
+            if (pwdUpdated) { 
+                Swal.fire({
+                    title: 'Contraseña actualizada!',
+                    text: 'Se cerrará sesión y deberás iniciar de nuevo con tu nueva contraseña',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                }).then(() => {
+                    localStorage.removeItem('auth_token')
+                    navigate('/')
+                })
+            }
+        } catch (error) {
+            setErrors([error.message])
+        }
+    }
+
+    return { loginUser, registerUser, updateUserProfile, updateUserPassword, errors }
 }
