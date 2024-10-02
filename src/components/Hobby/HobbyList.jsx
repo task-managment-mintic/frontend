@@ -1,65 +1,101 @@
-import { useContext, useEffect, useState } from 'react'
-import { HobbyContext } from '../../context/HobbyContext'
+import { useEffect, useState } from 'react'
+import { useHobby } from '../../context/HobbyContext'
+import { Button, Grid2, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import Input from '../ui/Input'
+import SelectInput from '../ui/SelectInput'
+import { useForm } from 'react-hook-form'
 
 const HobbyList = () => {
     const [isAdding, setIsAdding] = useState(false)
-    const [newHobby, setNewHobby] = useState({name: '', hobby_type: '' })
-    const { hobbiesList, createHobby, fetchHobbiesList } = useContext(HobbyContext)
+    const { register, handleSubmit, reset } = useForm({
+        defaultValues: {
+            name: '',
+            hobby_type: ''
+        }
+    })
+    const { hobbiesList, createHobby, fetchHobbiesList } = useHobby()
 
-    const handleAddHobby = () => {
-        setIsAdding(true)
-    }
+    const handleAddHobby = () => setIsAdding(true)
 
-    const handleSaveHobby = async () => {
-        console.log('Se hace click: ', newHobby)
-        const hobbyCreated = await createHobby(newHobby)
+    const onSubmit = handleSubmit(async data => {
+        const hobbyCreated = await createHobby(data)
         if (hobbyCreated) {
             fetchHobbiesList()
-            setIsAdding(false)
-            setNewHobby({ name: '', hobby_type: '' })
+            setIsAdding(false),
+            reset()
         }
-    }
-
-    const handleChange = e => {
-        const { name, value } = e.target
-        setNewHobby(prev => ({
-            ...prev,
-            [name]: value
-        }))
-    }
+    })
 
     useEffect(() => {
         fetchHobbiesList()
     }, [])
 
     return (
-        <div>
-            <h2>Hobbies y Gustos</h2>
-            {hobbiesList.map((hobby, index) => (
-                <div key={index} className='flex gap-3'>
-                    <p>{hobby.name}</p>
-                    <p>{hobby.hobby_type}</p>
-                </div>
-            ))}
-            {isAdding && 
-                <div>
-                    <input type='text'
-                        name='name'
-                        value={newHobby.name}
-                        onChange={handleChange}
-                        placeholder='Nuevo Hobby'
-                    />
-                    <select name='hobby_type' value={newHobby.hobby_type} onChange={handleChange}>
-                        <option value=''>:.</option>
-                        <option value='actividad'>Actividad</option>
-                        <option value='objeto'>Objeto</option>
-                    </select>
-                </div>
-            }
-            <button onClick={isAdding ? handleSaveHobby : handleAddHobby}>
-                {isAdding ? 'Guardar Hobby' : 'Agregar Hobby Nuevo'}
-            </button>
-        </div>
+        <Grid2 container spacing={4}>
+            <Grid2 size={12}>
+                <h2>Hobbies y Gustos</h2>
+            </Grid2>
+            <Grid2 size={12}>
+                <TableContainer>
+                    <Table aria-label='hobby table'>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align='left'>Nombre Hobby</TableCell>
+                                <TableCell align='left'>Tipo Hobby</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {hobbiesList.map((hobby, index) => (
+                                <TableRow key={index}>
+                                    <TableCell align='left'>{hobby.name}</TableCell>
+                                    <TableCell align='left'>{hobby.hobby_type}</TableCell>
+                                </TableRow>
+                            ))}
+                            <TableRow>
+                                <TableCell colSpan={2}>
+                                    {isAdding ? 
+                                        <form onSubmit={onSubmit}>
+                                            <Grid2 container spacing={1}>
+                                                <Grid2 size={6}>
+                                                    <Input id='name' label='Nuevo Hobby' register={register} />
+                                                </Grid2>
+                                                <Grid2 size={6}>
+                                                    <SelectInput id='hobby_type'
+                                                        labelId='hobby_type_label'
+                                                        label='Tipo de Hobby'
+                                                        register={register}
+                                                        minWidth='15vw'
+                                                    >
+                                                        <MenuItem value=''>
+                                                            <em>:.</em>
+                                                        </MenuItem>
+                                                        <MenuItem value='actividad'>Actividad</MenuItem>
+                                                        <MenuItem value='objeto'>Objeto</MenuItem>
+                                                    </SelectInput>
+                                                </Grid2>
+                                            </Grid2>
+                                            <Button variant='contained'
+                                                type='submit'
+                                                sx={{ fontSize: '12px' }}
+                                            >
+                                                Guardar Hobby
+                                            </Button>
+                                        </form>
+                                        :
+                                        <Button variant='contained'
+                                            onClick={handleAddHobby}
+                                            sx={{ fontSize: '12px ' }}
+                                        >
+                                            Agregar Nuevo Hobby
+                                        </Button>
+                                    }
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid2>
+        </Grid2>
     )
 }
 

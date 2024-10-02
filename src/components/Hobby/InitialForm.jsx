@@ -1,11 +1,14 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
-import { HobbyContext } from '../../context/HobbyContext'
+import { useHobby } from '../../context/HobbyContext'
+import { Box, Button, Grid2, MenuItem, Typography } from '@mui/material'
+import Input from '../ui/Input'
+import SelectInput from '../ui/SelectInput'
 
 const InitialForm = ({ userName, onClose }) => {
     const [step, setStep] = useState(1)
-    const { createHobby } = useContext(HobbyContext)
+    const { createHobby } = useHobby()
     const { register, handleSubmit, reset } = useForm()
 
     const onSubmit = handleSubmit(async hobby => {
@@ -25,33 +28,62 @@ const InitialForm = ({ userName, onClose }) => {
     })
 
     return (
-        <div>
+        <Box sx={{ flexGrow: 1, maxWidth: '600px', margin: '0 auto', padding: '10px' }}>
             {step !== 3 ? (
                 <form onSubmit={onSubmit}>
-                    <h3>Bienvenido a Nombre App, {userName}:</h3>
-                    <p>Para una experiencia más personalizada en tu sistema de recompensas es necesario que registres al menos dos hobbies que disfrutes hacer, puede ser actividades como dibujar, bailar u objetos como las hamburguesas, los libros, etc.</p>
-                    <label htmlFor='name'>Ingresa tu {step === 1 ? 'primer' : 'segundo'} hobby:</label>
-                    <input type='text' id='name' {...register('name')} />
+                    <Grid2 container spacing={2}>
+                        <Grid2 size={12}>
+                            <Typography variant='h5' align='center'>
+                                Bienvenido a Nombre App, {userName}:
+                            </Typography>
+                        </Grid2>
 
-                    <label>Tipo de hobby:</label>
-                    <select id='hobby_type' {...register('hobby_type')}>
-                        <option value=''>:.</option>
-                        <option value='actividad'>Actividad</option>
-                        <option value='objeto'>Objeto</option>
-                    </select>
-                    
-                    <button type='submit'>
-                        {step === 1 ? 'Siguiente' : 'Guardar'}
-                    </button>
+                        <Grid2 size={12}>
+                            <Typography variant='body1'>
+                                Para una experiencia más personalizada en tu sistema de recompensas es necesario que registres al menos dos hobbies que disfrutes hacer, puede ser actividades como dibujar, bailar u objetos como las hamburguesas, los libros, etc.
+                            </Typography>
+                        </Grid2>
+                        
+                        <Grid2 size={6}>
+                            <Input id='name' label={`Ingresa tu ${step === 1 ? 'primer' : 'segundo'} hobby:`} register={register} />
+                        </Grid2>
+
+                        <Grid2 size={6}>
+                            <SelectInput id='hobby_type' labelId='hobby_type_label' label='Tipo de Hobby' register={register}>
+                                <MenuItem value=''>
+                                    <em>:.</em>
+                                </MenuItem>
+                                <MenuItem value='actividad'>Actividad</MenuItem>
+                                <MenuItem value='objeto'>Objeto</MenuItem>
+                            </SelectInput>
+                        </Grid2>
+
+                        <Grid2 size={12}>
+                            <Button type='submit' variant='contained'>
+                                {step === 1 ? 'Siguiente' : 'Guardar'}
+                            </Button>
+                        </Grid2>
+                    </Grid2>
                 </form>
-            )   : (
-                <div>
-                    <h3>EXCELENTE!</h3>
-                    <p>Ahora que has registrado tus hobbies, puedes empezar a explorar nuestra aplicación y darle un uso</p>    
-                    <button onClick={onClose}>A darle!</button>
-                </div>
+            ) :
+            (
+                <Grid2 container spacing={4}>
+                    <Grid2 size={12}>
+                        <Typography variant='h4' align='center'>
+                            EXCELENTE!        
+                        </Typography>        
+                    </Grid2>
+                    <Grid2 size={12}>
+                        <Typography variant='body1' align='center'>
+                            Ahora que has registrado tus hobbies, puedes empezar a explorar nuestra aplicación y darle un uso        
+                        </Typography>
+                    </Grid2>
+                    <Grid2 size={12} sx={{ display: 'flex', flexDirection: 'column', justifyItems: 'center', alignItems: 'center' }}>
+                        <Button onClick={onClose} variant='contained'>A darle!</Button>
+                    </Grid2>
+                </Grid2>
             )}
-        </div>
+        </Box>
     )
 }
 

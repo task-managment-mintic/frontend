@@ -10,5 +10,17 @@ export const avatarUrls = [
     {
         title: 'avatar_2',
         url: 'v1726667415/avatars/avatar-lvl6-tskmng-18.png'
+    },
+    {
+        title: 'avatar_3',
+        url: 'v1726667415/avatars/avatar-lvl6-tskmng-18.png'
+    },
+    {
+        title: 'avatar_4',
+        url: 'v1726667415/avatars/avatar-lvl6-tskmng-18.png'
+    },
+    {
+        title: 'avatar_5',
+        url: 'v1726667415/avatars/avatar-lvl6-tskmng-18.png'
     }
 ]

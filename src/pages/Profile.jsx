@@ -1,28 +1,32 @@
-import { useContext } from 'react'
 import HobbyList from '../components/Hobby/HobbyList'
 import ProfileCard from '../components/User/ProfileCard'
-import { HobbyContext } from '../context/HobbyContext'
+import { useAuth } from '../context/AuthContext'
+import { useHobby } from '../context/HobbyContext'
+import { Box, Grid2 } from '@mui/material'
+import { useErrors } from '../hooks/useErrors'
+import ErrorDisplay from '../components/ui/ErrorDisplay'
 
 const Profile = () => {
-    const { hobbyErrors } = useContext(HobbyContext)
+    const { hobbyErrors } = useHobby()
+    const { userErrors } = useAuth()
+    const { errors: hobbyErrorList } = useErrors(hobbyErrors)
+    const { errors: userErrorList } = useErrors(userErrors)
 
     return (
-        <div>
-            <div className='fixed top-4 right-4 flex flex-col space-y-2 z-50'>
-                {hobbyErrors.map((error, index) => (
-                    <div key={index}
-                        className='bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 animate-fade-out'
-                        style={{ animationDelay: `${index * 0.25}s` }}
-                    >
-                        <div className="flex justify-between items-center">
-                            <span>{error}</span>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <ProfileCard />
-            <HobbyList />
-        </div>
+        <Box component='main' sx={{ flexGrow: 1, p: 3, ml: '200px'}}>
+            {hobbyErrors.length > 0 && <ErrorDisplay errors={hobbyErrorList} />}
+            {userErrors.length > 0 && <ErrorDisplay errors={userErrorList} />}
+            <Box sx={{ p: 3 }}>
+                <Grid2 container spacing={4}>
+                    <Grid2 size={7}>
+                        <ProfileCard />
+                    </Grid2>
+                    <Grid2 size={5}>
+                        <HobbyList />
+                    </Grid2>
+                </Grid2>
+            </Box>
+        </Box>
     )
 }
 

@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @keyframes fade-out {
     0% {
         opacity: 1;
@@ -13,4 +9,9 @@
 
 .animate-fade-out {
     animation: fade-out 5s forwards;
+}
+
+* {
+    padding: 0;
+    margin: 0;
 }

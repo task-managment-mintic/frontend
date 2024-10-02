@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types'
 import { createContext, useContext, useState } from 'react'
-import { AuthContext } from './AuthContext'
+import { useAuth } from './AuthContext'
 import { createHobbyRequest, getHobbiesRequest, getHobbyRequest } from '../services/hobby-service'
 
-export const HobbyContext = createContext()
+const HobbyContext = createContext()
 
 export const HobbyProvider = ({ children }) => {
     const [hobby, setHobby] = useState(null)
     const [hobbiesList, setHobbiesList] = useState([])
     const [hobbyErrors, setHobbyErrors] = useState([])
-    const { isAuthenticated } = useContext(AuthContext)
+    const { isAuthenticated } = useAuth()
 
     const createHobby = async hobby => {
         if (!isAuthenticated) return
@@ -63,3 +63,5 @@ export const HobbyProvider = ({ children }) => {
 HobbyProvider.propTypes = {
     children: PropTypes.node.isRequired
 }
+
+export const useHobby = () => useContext(HobbyContext)

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import {
     createAccountRequest,
     getProfileRequest,
@@ -10,7 +10,7 @@ import {
     updateProfileImgRequest
 } from '../services/user-service'
 
-export const AuthContext = createContext()
+const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState('')
@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [userErrors, setUserErrors] = useState([])
-    const [loginError, setLoginError] = useState('')
 
     const signUp = async user => {
         setIsLoading(true)
@@ -38,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
     const signIn = async user => {
         setIsLoading(true)
-        setLoginError('')
+        setUserErrors('')
         try {
             const response = await loginAccountRequest(user)
             localStorage.setItem('auth_token', response.data.token)
@@ -46,7 +45,7 @@ export const AuthProvider = ({ children }) => {
             return true
         } catch (error) {
             setIsLoading(false)
-            setLoginError(error.response.data.message)
+            setUserErrors([error.response.data.message])
         }
     }
 
@@ -90,7 +89,11 @@ export const AuthProvider = ({ children }) => {
             setUser(response.data.user)
             return true
         } catch (error) {
-            setUserErrors(error.response.data.errors.map(err => err.message))
+            if (error.response.status === 404) {
+                setUserErrors([error.response.data.message])
+            } else {
+                setUserErrors(error.response.data.errors.map(err => err.message))
+            }
         }
     }
 
@@ -157,8 +160,7 @@ export const AuthProvider = ({ children }) => {
             xpRequired,
             isAuthenticated,
             isLoading,
-            userErrors,
-            loginError
+            userErrors
         }}>
             {children}
         </AuthContext.Provider>
@@ -168,3 +170,5 @@ export const AuthProvider = ({ children }) => {
 AuthProvider.propTypes = {
     children: PropTypes.node.isRequired
 }
+
+export const useAuth = () => useContext(AuthContext)

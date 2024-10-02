@@ -1,46 +1,26 @@
 import PropTypes from 'prop-types'
-import { useContext, useEffect } from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import { useEffect } from 'react'
+import { useAuth } from '../../context/AuthContext'
 import { useForm } from 'react-hook-form'
-import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
+import { Button, Grid2, IconButton } from '@mui/material'
+import { Clear } from '@mui/icons-material'
+import Input from '../ui/Input'
+import PwdInput from '../ui/PwdInput'
+import { useAuthHandler } from '../../hooks/useAuthHandler'
 
 const UpdateForm = ({ formType, closeModal }) => {
-    const { user, userErrors, updateAccount, updatePassword } = useContext(AuthContext)
+    const { user } = useAuth()
+    const { updateUserProfile, updateUserPassword } = useAuthHandler()
     const { register, handleSubmit, setValue } = useForm()
     const navigate = useNavigate()
 
     const onSubmitInfo = handleSubmit(async user => {
-        const userUpdated = await updateAccount(user)
-        if (userUpdated) { 
-            Swal.fire({
-                title: 'ÉXITO',
-                text: 'Datos actualizados!',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            }).then(() => {
-                closeModal()
-            })
-        } else {
-            console.log('error')
-        }
+        await updateUserProfile(user, closeModal)
     })
 
     const onSubmitPwd = handleSubmit(async user => {
-        const pwdUpdated = await updatePassword(user)
-        if (pwdUpdated) {
-            Swal.fire({
-                title: 'Contraseña actualizada!',
-                text: 'Se cerrará sesión y deberás iniciar de nuevo con tu nueva contraseña',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            }).then(() => {
-                localStorage.removeItem('auth_token')
-                navigate('/')
-            })
-        } else {
-            console.log('error')
-        }
+        await updateUserPassword(user, navigate)
     })
 
     useEffect(() => {
@@ -54,49 +34,56 @@ const UpdateForm = ({ formType, closeModal }) => {
 
     return (
         <div>
-            <div className='fixed top-4 right-4 flex flex-col space-y-2 z-50'>
-                {userErrors.map((error, index) => (
-                    <div key={index}
-                        className='bg-red-500 text-white p-4 rounded-lg shadow-lg z-50 animate-fade-out'
-                        style={{ animationDelay: `${index * 0.25}s` }}
-                    >
-                        <div className="flex justify-between items-center">
-                            <span>{error}</span>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <button onClick={closeModal}>Cerrar</button>
+            <IconButton sx={{
+                bgcolor: 'red',
+                color: 'white',
+                '&:hover': {
+                    bgcolor: 'lightpink',
+                    color: 'black'
+                }
+            }}
+                onClick={closeModal}
+            >
+                <Clear />
+            </IconButton>
             {formType === 'profile' && (
                 <form onSubmit={onSubmitInfo}>
-                    <label htmlFor='first_name'>Nombres</label>
-                    <input type='text' id='first_name' {...register('first_name')} />
-
-                    <label htmlFor='last_name'>Apellidos</label>
-                    <input type='text' id='last_name' {...register('last_name')} />
-
-                    <label htmlFor='nickname'>Nombre de Usuario</label>
-                    <input type='text' id='nickname' {...register('nickname')} />
-
-                    <label htmlFor='email'>Correo Electrónico</label>
-                    <input type='email' id='email' {...register('email')} />
-
-                    <button>Actualizar Perfil</button>
+                    <Grid2 container spacing={2}>
+                        <Grid2 size={6}>
+                            <Input id='first_name' label='Nombres' register={register} />
+                        </Grid2>
+                        <Grid2 size={6}>
+                            <Input id='last_name' label='Apellidos' register={register} />
+                        </Grid2>
+                        <Grid2 size={6}>
+                            <Input id='nickname' label='Nombre de Usuario' register={register} />
+                        </Grid2>
+                        <Grid2 size={6}>
+                            <Input id='email' label='Correo electrónico' register={register} type='email' />
+                        </Grid2>
+                        <Grid2 size={12} sx={{ display: 'flex', justifyContent: 'center'}}>
+                            <Button variant='contained' type='submit'>Actualizar Perfil</Button>
+                        </Grid2>
+                    </Grid2>
                 </form>
             )}
 
             {formType === 'password' && (
                 <form onSubmit={onSubmitPwd}>
-                    <label htmlFor='current_password'>Contraseña anterior</label>
-                    <input type='password' id='current_password' {...register('current_password')} />
-
-                    <label htmlFor='password'>Nueva contraseña</label>
-                    <input type='password' id='password' {...register('password')} />
-
-                    <label htmlFor=''>Confirmar nueva contraseña</label>
-                    <input type='password' id='confirm_password' {...register('confirm_password')} />
-
-                    <button>Actualizar</button>
+                    <Grid2 container spacing={2} sx={{ width: '270px', mt: 1 }}>
+                        <Grid2>
+                            <PwdInput id='current_password' label='Contraseña Anterior' register={register} />
+                        </Grid2>
+                        <Grid2>
+                            <PwdInput id='password' label='Nueva Contraseña' register={register} />
+                        </Grid2>
+                        <Grid2>
+                            <PwdInput id='confirm_password' label='Confirmar Nueva Contraseña' register={register} />
+                        </Grid2>
+                        <Grid2>
+                            <Button variant='contained' type='submit'>Actualizar</Button>
+                        </Grid2>
+                    </Grid2>
                 </form>
             )}
 
