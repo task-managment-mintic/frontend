@@ -2,8 +2,9 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { useHobby } from '../../context/HobbyContext'
-import { Box, Button, FormControl, Grid2, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { Box, Button, Grid2, MenuItem, Typography } from '@mui/material'
 import Input from '../ui/Input'
+import SelectInput from '../ui/SelectInput'
 
 const InitialForm = ({ userName, onClose }) => {
     const [step, setStep] = useState(1)
@@ -48,23 +49,13 @@ const InitialForm = ({ userName, onClose }) => {
                         </Grid2>
 
                         <Grid2 size={6}>
-                            <FormControl>
-                                <InputLabel id='hobby_type_label'>Tipo de Hobby</InputLabel>
-                                <Select labelId='hobby_type_label'
-                                    id='hobby_type'
-                                    label='Tipo de Hobby'
-                                    defaultValue=''
-                                    {...register('hobby_type')}
-                                    sx={{ minWidth: '20vw' }}
-                                    size='small'
-                                >
-                                    <MenuItem value=''>
-                                        <em>:.</em>
-                                    </MenuItem>
-                                    <MenuItem value='actividad'>Actividad</MenuItem>
-                                    <MenuItem value='objeto'>Objeto</MenuItem>
-                                </Select>
-                            </FormControl>
+                            <SelectInput id='hobby_type' labelId='hobby_type_label' label='Tipo de Hobby' register={register}>
+                                <MenuItem value=''>
+                                    <em>:.</em>
+                                </MenuItem>
+                                <MenuItem value='actividad'>Actividad</MenuItem>
+                                <MenuItem value='objeto'>Objeto</MenuItem>
+                            </SelectInput>
                         </Grid2>
 
                         <Grid2 size={12}>

@@ -14,7 +14,7 @@ const LoginForm = ({ openRegister }) => {
     const { register, handleSubmit } = useForm()
     const navigate = useNavigate()
     const { loginUser } = useAuthHandler()
-    const { errors } = useErrors()
+    const { errors } = useErrors([userErrors])
 
     const onSubmit = handleSubmit(async user => {
         loginUser(user, navigate)

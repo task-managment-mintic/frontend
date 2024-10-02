@@ -12,7 +12,7 @@ const RegisterForm = ({ openLogin }) => {
     const { userErrors } = useAuth()
     const { register, handleSubmit } = useForm()
     const { registerUser } = useAuthHandler()
-    const { errors } = useErrors()
+    const { errors } = useErrors(userErrors)
 
     const onSubmit = handleSubmit(async user => {
         registerUser(user, openLogin)
