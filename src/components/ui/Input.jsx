@@ -1,13 +1,13 @@
 import { TextField } from '@mui/material'
 import PropTypes from 'prop-types'
 
-const Input = ({ id, label, register, variant='outlined', type='text', value, onChange }) => {
+const Input = ({ id, label, register, variant='outlined', type='text' }) => {
     return (
         <div>
             <TextField id={id}
                 label={label}
                 variant={variant}
-                {...(register ? register(id) : { name: id, value, onChange })}
+                {...register(id)}
                 size='small'
                 fullWidth
                 type={type}
@@ -21,9 +21,7 @@ Input.propTypes = {
     label: PropTypes.string.isRequired,
     register: PropTypes.func,
     variant: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    onChange: PropTypes.func
+    type: PropTypes.string.isRequired
 }
 
 export default Input

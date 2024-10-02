@@ -3,33 +3,28 @@ import { useHobby } from '../../context/HobbyContext'
 import { Button, Grid2, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import Input from '../ui/Input'
 import SelectInput from '../ui/SelectInput'
+import { useForm } from 'react-hook-form'
 
 const HobbyList = () => {
     const [isAdding, setIsAdding] = useState(false)
-    const [newHobby, setNewHobby] = useState({name: '', hobby_type: '' })
+    const { register, handleSubmit, reset } = useForm({
+        defaultValues: {
+            name: '',
+            hobby_type: ''
+        }
+    })
     const { hobbiesList, createHobby, fetchHobbiesList } = useHobby()
 
-    const handleAddHobby = () => {
-        setIsAdding(true)
-    }
+    const handleAddHobby = () => setIsAdding(true)
 
-    const handleSaveHobby = async () => {
-        console.log('Se hace click: ', newHobby)
-        const hobbyCreated = await createHobby(newHobby)
+    const onSubmit = handleSubmit(async data => {
+        const hobbyCreated = await createHobby(data)
         if (hobbyCreated) {
             fetchHobbiesList()
-            setIsAdding(false)
-            setNewHobby({ name: '', hobby_type: '' })
+            setIsAdding(false),
+            reset()
         }
-    }
-
-    const handleChange = e => {
-        const { name, value } = e.target
-        setNewHobby(prev => ({
-            ...prev,
-            [name]: value
-        }))
-    }
+    })
 
     useEffect(() => {
         fetchHobbiesList()
@@ -58,36 +53,42 @@ const HobbyList = () => {
                             ))}
                             <TableRow>
                                 <TableCell colSpan={2}>
-                                    {isAdding && 
-                                        <Grid2 container spacing={1}>
-                                            <Grid2 size={6}>
-                                                <Input id='name' label='Nuevo Hobby' value={newHobby.name} onChange={handleChange} />
+                                    {isAdding ? 
+                                        <form onSubmit={onSubmit}>
+                                            <Grid2 container spacing={1}>
+                                                <Grid2 size={6}>
+                                                    <Input id='name' label='Nuevo Hobby' register={register} />
+                                                </Grid2>
+                                                <Grid2 size={6}>
+                                                    <SelectInput id='hobby_type'
+                                                        labelId='hobby_type_label'
+                                                        label='Tipo de Hobby'
+                                                        register={register}
+                                                        minWidth='15vw'
+                                                    >
+                                                        <MenuItem value=''>
+                                                            <em>:.</em>
+                                                        </MenuItem>
+                                                        <MenuItem value='actividad'>Actividad</MenuItem>
+                                                        <MenuItem value='objeto'>Objeto</MenuItem>
+                                                    </SelectInput>
+                                                </Grid2>
                                             </Grid2>
-                                            <Grid2 size={6}>
-                                                <SelectInput id='hobby_type'
-                                                    labelId='hobby_type_label'
-                                                    label='Tipo de Hobby'
-                                                    value={newHobby.hobby_type}
-                                                    onChange={handleChange}
-                                                    minWidth='15vw'
-                                                >
-                                                    <MenuItem value=''>
-                                                        <em>:.</em>
-                                                    </MenuItem>
-                                                    <MenuItem value='actividad'>Actividad</MenuItem>
-                                                    <MenuItem value='objeto'>Objeto</MenuItem>
-                                                </SelectInput>
-                                            </Grid2>
-                                        </Grid2>
+                                            <Button variant='contained'
+                                                type='submit'
+                                                sx={{ fontSize: '12px' }}
+                                            >
+                                                Guardar Hobby
+                                            </Button>
+                                        </form>
+                                        :
+                                        <Button variant='contained'
+                                            onClick={handleAddHobby}
+                                            sx={{ fontSize: '12px ' }}
+                                        >
+                                            Agregar Nuevo Hobby
+                                        </Button>
                                     }
-                                    <Button variant='contained'
-                                        onClick={isAdding ? handleSaveHobby : handleAddHobby}
-                                        sx={{
-                                            fontSize: '12px'
-                                        }}
-                                    >
-                                        {isAdding ? 'Guardar Hobby' : 'Agregar Hobby Nuevo'}
-                                    </Button>
                                 </TableCell>
                             </TableRow>
                         </TableBody>

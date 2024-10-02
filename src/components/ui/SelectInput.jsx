@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { FormControl, InputLabel, Select } from '@mui/material'
 
-const SelectInput = ({ id, labelId, label, register, minWidth='20vw', value, onChange, children }) => {
+const SelectInput = ({ id, labelId, label, register, minWidth='20vw', children }) => {
     return (
         <FormControl>
             <InputLabel id={labelId}>
@@ -12,7 +12,7 @@ const SelectInput = ({ id, labelId, label, register, minWidth='20vw', value, onC
                 labelId={labelId}
                 label={label}
                 defaultValue=''
-                {...(register ? register(id) : { name: id, value, onChange })}
+                {...register(id)}
                 sx={{ minWidth: `${minWidth} ` }}
                 size='small'
             >
@@ -28,8 +28,6 @@ SelectInput.propTypes = {
     label: PropTypes.string.isRequired,
     register: PropTypes.func.isRequired,
     minWidth: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    onChange: PropTypes.func,
     children: PropTypes.node.isRequired
 }
 
