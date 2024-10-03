@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { useHobby } from '../../context/HobbyContext'
 import { Box, Button, Grid2, MenuItem, Typography } from '@mui/material'
-import Input from '../ui/Input'
-import SelectInput from '../ui/SelectInput'
+import { Input, SelectInput } from '../ui'
 
 const InitialForm = ({ userName, onClose }) => {
     const [step, setStep] = useState(1)

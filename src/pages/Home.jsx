@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useHobby } from '../context/HobbyContext'
 import { Box, Dialog, DialogContent } from '@mui/material'
 import { useErrors } from '../hooks/useErrors'
-import ErrorDisplay from '../components/ui/ErrorDisplay'
+import { ErrorDisplay } from '../components/ui'
 
 const Home = () => {
     const { user, isLoading, checkToken, updateIsNew } = useAuth()

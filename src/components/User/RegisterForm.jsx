@@ -2,11 +2,9 @@ import PropTypes from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../../context/AuthContext'
 import { Box, Button, Grid2, Typography } from '@mui/material'
-import PwdInput from '../ui/PwdInput'
-import Input from '../ui/Input'
 import { useAuthHandler } from '../../hooks/useAuthHandler'
 import { useErrors } from '../../hooks/useErrors'
-import ErrorDisplay from '../ui/ErrorDisplay'
+import { ErrorDisplay, Input, PwdInput } from '../ui'
 
 const RegisterForm = ({ openLogin }) => {
     const { userErrors } = useAuth()

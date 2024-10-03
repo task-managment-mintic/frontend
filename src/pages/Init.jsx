@@ -5,12 +5,12 @@ import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Dialog, DialogContent, Grid2, IconButton, Typography } from '@mui/material'
 import { Clear } from '@mui/icons-material'
-import DescriptiveCard from '../components/ui/DescriptiveCard'
 import TaskImage from '../assets/sections_img/tasks.png'
 import LevelImage from '../assets/sections_img/level.png'
 import FinanceImage from '../assets/sections_img/billetes.png'
 import TextCarrousel from '../components/ui/TextCarrousel'
 import { levelContent, financesContent } from '../constants/descriptiveTexts'
+import { DescriptiveCard } from '../components/ui'
 
 const Init = () => {
     const [isLogin, setIsLogin] = useState(false)
