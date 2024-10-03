@@ -1,10 +1,10 @@
 import HobbyList from '../components/Hobby/HobbyList'
-import ProfileCard from '../components/User/ProfileCard'
 import { useAuth } from '../context/AuthContext'
 import { useHobby } from '../context/HobbyContext'
 import { Box, Grid2 } from '@mui/material'
 import { useErrors } from '../hooks/useErrors'
-import ErrorDisplay from '../components/ui/ErrorDisplay'
+import { ErrorDisplay } from '../components/ui'
+import { ProfileCard } from '../components/User'
 
 const Profile = () => {
     const { hobbyErrors } = useHobby()
