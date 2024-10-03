@@ -1,6 +1,5 @@
 import { Button, Grid2, MenuItem } from '@mui/material'
-import Input from '../ui/Input'
-import SelectInput from '../ui/SelectInput'
+import { Input, SelectInput } from '../ui'
 import PropTypes from 'prop-types'
 
 const HobbyForm = ({ onSubmit, register }) => {

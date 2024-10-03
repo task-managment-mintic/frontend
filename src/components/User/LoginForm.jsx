@@ -3,11 +3,9 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { Box, Button, Grid2, Typography } from '@mui/material'
-import Input from '../ui/Input'
-import PwdInput from '../ui/PwdInput'
 import { useAuthHandler } from '../../hooks/useAuthHandler'
 import { useErrors } from '../../hooks/useErrors'
-import ErrorDisplay from '../ui/ErrorDisplay'
+import { ErrorDisplay, Input, PwdInput } from '../ui'
 
 const LoginForm = ({ openRegister }) => {
     const { userErrors } = useAuth()

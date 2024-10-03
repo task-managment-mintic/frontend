@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import UpdateForm from './UpdateForm'
-import AvatarTable from './AvatarTable'
 import { useAuth } from '../../context/AuthContext'
 import { Box, Button, Dialog, DialogContent, Grid2, IconButton, LinearProgress, Typography } from '@mui/material'
 import { Clear, Edit } from '@mui/icons-material'
+import AvatarTable from './AvatarTable'
+import UpdateForm from './UpdateForm'
 
 const ProfileCard = () => {
     const [formType, setFormType] = useState(null)

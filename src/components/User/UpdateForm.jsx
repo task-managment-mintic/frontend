@@ -5,9 +5,8 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Button, Grid2, IconButton } from '@mui/material'
 import { Clear } from '@mui/icons-material'
-import Input from '../ui/Input'
-import PwdInput from '../ui/PwdInput'
 import { useAuthHandler } from '../../hooks/useAuthHandler'
+import { Input, PwdInput } from '../ui'
 
 const UpdateForm = ({ formType, closeModal }) => {
     const { user } = useAuth()
