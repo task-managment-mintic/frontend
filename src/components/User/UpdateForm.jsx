@@ -84,7 +84,7 @@ const UpdateForm = ({ formType, closeModal }) => {
                             <Button variant='contained' type='submit'>Actualizar</Button>
                         </Grid2>
                     </Grid2>
-                </form>
+            </form>
             )}
 
         </div>

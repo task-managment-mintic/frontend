@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useHobby } from '../../context/HobbyContext'
-import { Button, Grid2, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import Input from '../ui/Input'
-import SelectInput from '../ui/SelectInput'
+import { Button, Grid2, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import HobbyForm from './HobbyForm'
 
 const HobbyList = () => {
     const [isAdding, setIsAdding] = useState(false)
@@ -54,40 +53,16 @@ const HobbyList = () => {
                             <TableRow>
                                 <TableCell colSpan={2}>
                                     {isAdding ? 
-                                        <form onSubmit={onSubmit}>
-                                            <Grid2 container spacing={1}>
-                                                <Grid2 size={6}>
-                                                    <Input id='name' label='Nuevo Hobby' register={register} />
-                                                </Grid2>
-                                                <Grid2 size={6}>
-                                                    <SelectInput id='hobby_type'
-                                                        labelId='hobby_type_label'
-                                                        label='Tipo de Hobby'
-                                                        register={register}
-                                                        minWidth='15vw'
-                                                    >
-                                                        <MenuItem value=''>
-                                                            <em>:.</em>
-                                                        </MenuItem>
-                                                        <MenuItem value='actividad'>Actividad</MenuItem>
-                                                        <MenuItem value='objeto'>Objeto</MenuItem>
-                                                    </SelectInput>
-                                                </Grid2>
-                                            </Grid2>
+                                        (
+                                            <HobbyForm onSubmit={onSubmit} register={register} />
+                                        ) : (
                                             <Button variant='contained'
-                                                type='submit'
-                                                sx={{ fontSize: '12px' }}
+                                                onClick={handleAddHobby}
+                                                sx={{ fontSize: '12px ' }}
                                             >
-                                                Guardar Hobby
+                                                Agregar Nuevo Hobby
                                             </Button>
-                                        </form>
-                                        :
-                                        <Button variant='contained'
-                                            onClick={handleAddHobby}
-                                            sx={{ fontSize: '12px ' }}
-                                        >
-                                            Agregar Nuevo Hobby
-                                        </Button>
+                                        )
                                     }
                                 </TableCell>
                             </TableRow>
